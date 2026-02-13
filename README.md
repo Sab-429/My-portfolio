@@ -1,4 +1,4 @@
-# 🚀 First-Time GitHub Setup in WSL (Ubuntu) Using SSH
+#  First-Time GitHub Setup in WSL (Ubuntu) Using SSH
 
 Follow these steps to configure Git and connect WSL to GitHub securely using SSH authentication.
 
@@ -52,7 +52,6 @@ cat ~/.ssh/id_ed25519.pub
 Copy the output and add it to:
 
 GitHub → Settings → SSH and GPG Keys → New SSH Key  
-https://github.com/settings/keys
 
 ---
 
