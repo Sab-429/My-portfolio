@@ -63,6 +63,24 @@ skillCards.forEach(card => {
   observer.observe(card);
 });
 
+// ===== WORK / PROJECTS ANIMATION =====
+const workCards = document.querySelectorAll('.work__card');
+
+const workObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show-work');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.2 }
+);
+
+workCards.forEach(card => {
+  workObserver.observe(card);
+});
 
 /*===== SCROLL REVEAL ANIMATION =====*/
 const sr = ScrollReveal({
