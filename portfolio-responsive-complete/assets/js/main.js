@@ -91,7 +91,7 @@ const sr = ScrollReveal({
 //     reset: true
 });
 
-sr.reveal('.home__data, .about__img, .skills__category, .skills__list',{}); 
+sr.reveal('.home__data, .about__img, .skills__category, .skills__list, .work-title, .',{}); 
 sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
 sr.reveal('.home__social-icon',{ interval: 200}); 
-sr.reveal('.skills__card, .work__img, .contact__input',{interval: 200}); 
+sr.reveal('.skills__card, .work__card, .contact__input',{interval: 200}); 
