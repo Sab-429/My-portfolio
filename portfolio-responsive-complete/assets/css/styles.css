@@ -386,9 +386,11 @@ img {
 /*===== PROJECTS =====*/
 .work__container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
+  justify-content: center;
 }
+
 
 .work__card {
   background: #fff;
@@ -396,8 +398,6 @@ img {
   padding: 2rem;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
   transition: 0.4s ease;
-  max-width: 900px;
-  margin: 0 auto;
 }
 .work__highlights {
   margin: 1rem 0;
@@ -478,7 +478,6 @@ img {
 @media screen and (max-width: 768px) {
   .work__container {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
 }
 
