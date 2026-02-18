@@ -82,6 +82,26 @@ workCards.forEach(card => {
   workObserver.observe(card);
 });
 
+  const text = "Hi,\nI am Sabyasachi";
+  const typingElement = document.getElementById("typing");
+  let index = 0;
+
+  function typeEffect() {
+    if (index < text.length) {
+      if (text.charAt(index) === "\n") {
+        typingElement.innerHTML += "<br>";
+      } else {
+        typingElement.innerHTML += text.charAt(index);
+      }
+
+      index++;
+      setTimeout(typeEffect, 120);
+    }
+  }
+
+  window.onload = typeEffect;
+
+
 /*===== SCROLL REVEAL ANIMATION =====*/
 const sr = ScrollReveal({
     origin: 'top',
@@ -91,7 +111,7 @@ const sr = ScrollReveal({
 //     reset: true
 });
 
-sr.reveal('.home__data, .about__img, .skills__category, .skills__list, .work-title, .',{}); 
+sr.reveal('.home__data, .about__img, .skills__category, .skills__list, .work__title, .',{}); 
 sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
 sr.reveal('.home__social-icon',{ interval: 200}); 
 sr.reveal('.skills__card, .work__card, .contact__input',{interval: 200}); 
