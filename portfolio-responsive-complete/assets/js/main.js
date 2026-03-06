@@ -122,30 +122,45 @@ sr.reveal(".home__img, .about__subtitle, .about__text, .skills__img", {
 sr.reveal(".home__social-icon", { interval: 200 });
 sr.reveal(".skills__card, .work__card, .contact__input", { interval: 200 });
 
-document
-  .getElementById("contactForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    };
-    try {
-      const response = await fetch("http://localhost:5000/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  const formData = new FormData(e.target);
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
+  };
+  try {
+    const response = await fetch("http://localhost:5000/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-      const result = await response.json();
-      alert(result.message);
-    } catch (error) {
-      alert("Something went wrong!");
-      console.error(error);
-    }
+    const result = await response.json();
+    alert(result.message);
+  } catch (error) {
+    alert("Something went wrong!");
+    console.error(error);
+  }
+});
+
+const buttons = document.querySelectorAll(".view-more-btn");
+
+buttons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+
+    const card = btn.closest(".work__card");
+    const highlights = card.querySelector(".work__highlights");
+
+    highlights.classList.toggle("expanded");
+
+    btn.innerText =
+      btn.innerText === "View More"
+        ? "View Less"
+        : "View More";
   });
+});
