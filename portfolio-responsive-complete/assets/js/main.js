@@ -164,3 +164,38 @@ buttons.forEach((btn) => {
         : "View More";
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const btn = document.getElementById("resumeBtn");
+  if(!btn) return;
+
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  btn.addEventListener("mousedown", (e) => {
+    isDragging = true;
+
+    const rect = btn.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    btn.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+
+    if(!isDragging) return;
+
+    btn.style.left = (e.clientX - offsetX) + "px";
+    btn.style.top = (e.clientY - offsetY) + "px";
+
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    btn.style.cursor = "grab";
+  });
+
+});
