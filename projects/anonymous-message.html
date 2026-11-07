@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anonymous-message | Sabyasachi Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="l-header">
+      <nav class="nav bd-grid">
+        <div>
+          <a href="../index.html" class="nav__logo">Sabyasachi</a>
+        </div>
+        <a href="../index.html#work" class="nav__link">
+          <i class="bx bx-left-arrow-alt"></i> Back to Projects
+        </a>
+      </nav>
+    </header>
+
+    <main class="l-main">
+      <section class="project section" id="project">
+        <div class="project__container bd-grid">
+          <div class="project__data">
+            <a href="../index.html#work" class="back-link">
+              <i class="bx bx-left-arrow-alt"></i> Back to Projects
+            </a>
+            <h1 class="project__title">Anonymous-message application</h1>
+            <p class="project__description">
+              Anonymous-message from any person to the user via a URL using
+              advanced dev tools. A secure, deployable anonymous messaging
+              platform.
+            </p>
+            <div class="project__tech">
+              <span>AWS</span>
+              <span>Next.js</span>
+              <span>MongoDB</span>
+              <span>Cloudflare</span>
+              <span>Docker</span>
+              <span>Nginx</span>
+            </div>
+            <div class="project__links">
+              <a
+                href="https://github.com/Sab-429/RAG"
+                target="_blank"
+                class="work__button work__repo"
+              >
+                <i class="bx bxl-github"></i> View Code
+              </a>
+              <a
+                href="https://anonymous.sabyasachisaha.in"
+                target="_blank"
+                class="work__button work__repo"
+              >
+                <i class="bx bx-link-external"></i> Live Deploy
+              </a>
+            </div>
+          </div>
+
+          <div class="project__content">
+            <div class="workflows">
+              <h3><i class="bx bx-task"></i> Workflows</h3>
+              <div class="workflow-step">
+                <strong>1. Message creation</strong><br />
+                A visitor opens a shareable URL, types an anonymous message, and
+                submits it. Next.js handles the frontend form and sends the
+                payload to the backend API route.
+              </div>
+              <div class="workflow-step">
+                <strong>2. Backend processing</strong><br />
+                The Next.js API route validates the input and forwards it to the
+                Express layer, which writes the message document to MongoDB
+                Atlas with a unique link identifier and timestamps.
+              </div>
+              <div class="workflow-step">
+                <strong>3. Delivery &amp; retrieval</strong><br />
+                The recipient opens the anonymous link. The server resolves the
+                unique ID, fetches the message from MongoDB Atlas, and renders
+                it. JWT-based authentication (Next-auth) protects admin routes.
+              </div>
+              <div class="workflow-step">
+                <strong>4. Deployment pipeline</strong><br />
+                The app is containerized with Docker &amp; Docker Compose and
+                deployed on AWS EC2 (Ubuntu 24.04 t3.micro). Nginx acts as a
+                reverse proxy (3000 → 80, 443), HTTPS is enabled via Let's
+                Encrypt (Certbot), and Cloudflare handles DNS + proxy.
+              </div>
+            </div>
+
+            <div class="architectures">
+              <h3><i class="bx bx-planet"></i> Architectures</h3>
+              <div class="architecture-item">
+                <strong>Client → Edge:</strong><br />
+                Browser ↔ Cloudflare DNS + Proxy (DDoS protection, caching,
+                SSL termination at the edge).
+              </div>
+              <div class="architecture-item">
+                <strong>Edge → Origin:</strong><br />
+                Cloudflare forwards traffic to Nginx reverse proxy on AWS EC2,
+                which terminates HTTPS and forwards to the Next.js app on port
+                3000.
+              </div>
+              <div class="architecture-item">
+                <strong>Origin → Data:</strong><br />
+                Next.js/Express app communicates with MongoDB Atlas over an
+                IP-restricted connection for secure read/write of messages.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__container">
+        <h3 class="footer__title">Sabyasachi</h3>
+        <p class="footer__copy">© 2026 Sabyasachi. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

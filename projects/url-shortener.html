@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener | Sabyasachi Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="l-header">
+      <nav class="nav bd-grid">
+        <div>
+          <a href="../index.html" class="nav__logo">Sabyasachi</a>
+        </div>
+        <a href="../index.html#work" class="nav__link">
+          <i class="bx bx-left-arrow-alt"></i> Back to Projects
+        </a>
+      </nav>
+    </header>
+
+    <main class="l-main">
+      <section class="project section" id="project">
+        <div class="project__container bd-grid">
+          <div class="project__data">
+            <a href="../index.html#work" class="back-link">
+              <i class="bx bx-left-arrow-alt"></i> Back to Projects
+            </a>
+            <h1 class="project__title">URL Shortener &mdash; ShortLinks</h1>
+            <p class="project__description">
+              A full-stack URL shortener application built with Next.js, Tailwind
+              CSS, Express, and MongoDB Atlas. Shorten long URLs, manage links,
+              and redirect visitors instantly.
+            </p>
+            <div class="project__tech">
+              <span>Next.js</span>
+              <span>MongoDB</span>
+              <span>Express</span>
+              <span>Tailwind CSS</span>
+              <span>Postman</span>
+            </div>
+            <div class="project__links">
+              <a
+                href="https://github.com/Sab-429/shortlink"
+                target="_blank"
+                class="work__button work__repo"
+              >
+                <i class="bx bxl-github"></i> View Code
+              </a>
+            </div>
+          </div>
+
+          <div class="project__content">
+            <div class="workflows">
+              <h3><i class="bx bx-task"></i> Workflows</h3>
+              <div class="workflow-step">
+                <strong>1. Shorten a URL</strong><br />
+                The user submits a long URL through the Next.js frontend
+                (Tailwind CSS). The request hits a Next.js API route that talks
+                to the Express backend.
+              </div>
+              <div class="workflow-step">
+                <strong>2. Generate short code</strong><br />
+                Express validates the URL, generates a unique short code, and
+                stores the mapping (short code → long URL) in MongoDB Atlas.
+              </div>
+              <div class="workflow-step">
+                <strong>3. Redirect</strong><br />
+                When someone visits the short link, Express resolves the code
+                from MongoDB Atlas and issues an HTTP redirect to the original
+                URL.
+              </div>
+              <div class="workflow-step">
+                <strong>4. Testing</strong><br />
+                All backend endpoints are validated with Postman to confirm
+                request/response cycles, CRUD behavior, and schema design.
+              </div>
+            </div>
+
+            <div class="architectures">
+              <h3><i class="bx bx-planet"></i> Architectures</h3>
+              <div class="architecture-item">
+                <strong>Frontend:</strong><br />
+                Next.js pages + Tailwind CSS for a responsive, clean layout that
+                calls the API routes.
+              </div>
+              <div class="architecture-item">
+                <strong>API layer:</strong><br />
+                Next.js API routes → Express server → business logic for
+                validation, short-code generation, and redirection.
+              </div>
+              <div class="architecture-item">
+                <strong>Data layer:</strong><br />
+                MongoDB Atlas (cloud NoSQL) stores URL mappings with indexes on
+                the short code for fast lookups and CRUD operations.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__container">
+        <h3 class="footer__title">Sabyasachi</h3>
+        <p class="footer__copy">© 2026 Sabyasachi. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

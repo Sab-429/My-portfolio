@@ -185,155 +185,39 @@
         <h2 class="section-title">Projects</h2>
 
         <div class="work__container bd-grid">
-          <div class="work__card">
-            <div class="work__content">
-              <h3 class="work__title">Anonymous-message application</h3>
-
-              <p class="work__description">
-                Anonymous-message from any person to the user via a URL using
-                advance dev tools
-              </p>
-
-              <div class="work__highlights work__highlights--collapsed">
-                <ul>
-                  <li>Deployed on AWS EC2 (Ubuntu 24.04 – t3.micro)</li>
-                  <li>Containerized using Docker & Docker Compose</li>
-                  <li>Configured Nginx reverse proxy (3000 → 80)</li>
-                  <li>Enabled HTTPS using Let's Encrypt (Certbot)</li>
-                  <li>Cloudflare DNS + Proxy integration</li>
-                  <li>Secured MongoDB Atlas with IP-restricted access</li>
-                  <li>JWT Based Authentication (Next-auth)</li>
-                  <li>shadcn for customised UI design</li>
-                </ul>
+          <a href="projects/anonymous-message.html" class="work__card-link">
+            <div class="work__card">
+              <div class="work__thumbnail">
+                <img src="../assets/img/thumbnail.jpg" alt="Anonymous-message application thumbnail" />
               </div>
-
-              <div class="work__tech">
-                <span>AWS</span>
-                <span>Nextjs</span>
-                <span>Mongodb</span>
-                <span>cloudflare</span>
-              </div>
-
-              <div class="work__links">
-                <a
-                  href="https://github.com/Sab-429/RAG"
-                  target="_blank"
-                  class="work__button work__repo"
-                >
-                  <i class="bx bxl-github"></i> View Code
-                </a>
-
-                <a
-                  href="https://anonymous.sabyasachisaha.in"
-                  target="_blank"
-                  class="work__button work__repo"
-                >
-                  <i class="bx bx-link-external"></i> Live Deploy
-                </a>
-              </div>
-              <button class="view-more-btn">View More</button>
-            </div>
-          </div>
-
-          <div class="work__card">
-            <div class="work__content">
-              <h3 class="work__title">
-                langchain based RAG Audio Transcripted model
-              </h3>
-
-              <p class="work__description">
-                End-to-end Audio Intelligence system that converts raw audio
-                into searchable, explainable knowledge using a RAG architecture.
-              </p>
-              <ul class="work__highlights">
-                <li>
-                  Built multilingual transcription pipeline using Google Gemini
-                </li>
-                <li>
-                  Implemented semantic timestamped chunking for traceable
-                  answers
-                </li>
-                <li>
-                  Generated local embeddings (bge-m3 via Ollama) for private
-                  inference
-                </li>
-                <li>
-                  Designed cosine-similarity retrieval engine (scikit-learn)
-                </li>
-                <li>Modular JSON → Vector Store pipeline (NumPy + Joblib)</li>
-              </ul>
-
-              <div class="work__tech">
-                <span>Python-3.10</span>
-                <span>Google Gemini 2.5 Flash</span>
-                <span>bge-m3</span>
-                <span>scikit-learn</span>
-                <span>NumPy</span>
-              </div>
-
-              <div class="work__links">
-                <a
-                  href="https://github.com/Sab-429/RAG"
-                  target="_blank"
-                  class="work__button work__repo"
-                >
-                  <i class="bx bxl-github"></i> View Code
-                </a>
+              <div class="work__content">
+                <h3 class="work__title">Anonymous-message application</h3>
               </div>
             </div>
-          </div>
+          </a>
 
-          <div class="work__card">
-            <div class="work__content">
-              <h3 class="work__title">URL Shorten application-ShortLinks</h3>
-
-              <p class="work__description">
-                A full-stack URL shortener application developed using modern
-                web technologies including Next.js, Tailwind CSS, and MongoDB
-                Atlas
-              </p>
-              <ul class="work__highlights">
-                <li>
-                  Built using the Next.js framework, API routing system for
-                  seamless backend and frontend integration.
-                </li>
-                <li>
-                  Designed responsive using Tailwind CSS, ensuring clean layout
-                  structure.
-                </li>
-                <li>
-                  Integrated MongoDB Atlas as a cloud-based NoSQL database.
-                </li>
-                <li>
-                  Tested all backend endpoints using Postman to validate
-                  request/response cycles.
-                </li>
-                <li>
-                  Practiced database schema design, CRUD operations, and
-                  efficient querying techniques.
-                </li>
-              </ul>
-
-              <div class="work__tech">
-                <span>nextjs</span>
-                <span>mongodb</span>
-                <span>express</span>
-                <span>Tailwindcss</span>
+          <a href="projects/rag-audio.html" class="work__card-link">
+            <div class="work__card">
+              <div class="work__thumbnail">
+                <img src="../assets/img/thumbnail.jpg" alt="RAG Audio Transcription thumbnail" />
               </div>
-
-              <div class="work__links">
-                <a
-                  href="https://github.com/Sab-429/shortlink"
-                  target="_blank"
-                  class="work__button work__repo"
-                >
-                  <i class="bx bxl-github"></i> View Code
-                </a>
+              <div class="work__content">
+                <h3 class="work__title">LangChain based RAG Audio Transcription Model</h3>
               </div>
             </div>
-          </div>
+          </a>
+
+          <a href="projects/url-shortener.html" class="work__card-link">
+            <div class="work__card">
+              <div class="work__thumbnail">
+                <img src="../assets/img/thumbnail.jpg" alt="URL Shortener ShortLinks thumbnail" />
+              </div>
+              <div class="work__content">
+                <h3 class="work__title">URL Shortener &mdash; ShortLinks</h3>
+              </div>
+            </div>
+          </a>
         </div>
-      </section>
       <!--===== CONTACT =====-->
       <section class="contact section" id="contact">
         <h2 class="section-title">Contact</h2>

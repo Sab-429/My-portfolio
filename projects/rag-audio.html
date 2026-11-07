@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG Audio Transcription | Sabyasachi Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="l-header">
+      <nav class="nav bd-grid">
+        <div>
+          <a href="../index.html" class="nav__logo">Sabyasachi</a>
+        </div>
+        <a href="../index.html#work" class="nav__link">
+          <i class="bx bx-left-arrow-alt"></i> Back to Projects
+        </a>
+      </nav>
+    </header>
+
+    <main class="l-main">
+      <section class="project section" id="project">
+        <div class="project__container bd-grid">
+          <div class="project__data">
+            <a href="../index.html#work" class="back-link">
+              <i class="bx bx-left-arrow-alt"></i> Back to Projects
+            </a>
+            <h1 class="project__title">
+              LangChain based RAG Audio Transcription Model
+            </h1>
+            <p class="project__description">
+              End-to-end Audio Intelligence system that converts raw audio into
+              searchable, explainable knowledge using a RAG (Retrieval-Augmented
+              Generation) architecture.
+            </p>
+            <div class="project__tech">
+              <span>Python-3.10</span>
+              <span>Google Gemini 2.5 Flash</span>
+              <span>bge-m3</span>
+              <span>Ollama</span>
+              <span>scikit-learn</span>
+              <span>NumPy</span>
+              <span>Joblib</span>
+            </div>
+            <div class="project__links">
+              <a
+                href="https://github.com/Sab-429/RAG"
+                target="_blank"
+                class="work__button work__repo"
+              >
+                <i class="bx bxl-github"></i> View Code
+              </a>
+            </div>
+          </div>
+
+          <div class="project__content">
+            <div class="workflows">
+              <h3><i class="bx bx-task"></i> Workflows</h3>
+              <div class="workflow-step">
+                <strong>1. Audio ingestion</strong><br />
+                Raw audio files are uploaded and fed into a multilingual
+                transcription pipeline built on Google Gemini.
+              </div>
+              <div class="workflow-step">
+                <strong>2. Transcription &amp; chunking</strong><br />
+                Gemini produces a transcript, which is split using semantic
+                timestamped chunking so every answer stays traceable to its
+                source segment.
+              </div>
+              <div class="workflow-step">
+                <strong>3. Embedding generation</strong><br />
+                Chunks are converted into local embeddings using bge-m3 via
+                Ollama for fully private, offline-capable inference.
+              </div>
+              <div class="workflow-step">
+                <strong>4. Retrieval &amp; generation</strong><br />
+                A cosine-similarity retrieval engine (scikit-learn) finds the
+                most relevant chunks, which are passed to Gemini to generate an
+                explainable, grounded answer.
+              </div>
+              <div class="workflow-step">
+                <strong>5. Storage</strong><br />
+                A modular JSON → Vector Store pipeline (NumPy + Joblib) persists
+                embeddings for fast reuse across sessions.
+              </div>
+            </div>
+
+            <div class="architectures">
+              <h3><i class="bx bx-planet"></i> Architectures</h3>
+              <div class="architecture-item">
+                <strong>Ingestion layer:</strong><br />
+                Raw audio → Google Gemini (multilingual STT) → plain-text
+                transcript.
+              </div>
+              <div class="architecture-item">
+                <strong>Chunking layer:</strong><br />
+                Transcript → semantic timestamped chunks → metadata (start/end
+                time, speaker, confidence).
+              </div>
+              <div class="architecture-item">
+                <strong>Embedding layer:</strong><br />
+                Chunks → bge-m3 (via Ollama) → dense vectors → persisted with
+                NumPy + Joblib vector store.
+              </div>
+              <div class="architecture-item">
+                <strong>RAG layer:</strong><br />
+                User query → bge-m3 embedding → cosine-similarity search
+                (scikit-learn) → top-k chunks → Gemini 2.5 Flash → grounded
+                answer with citations.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__container">
+        <h3 class="footer__title">Sabyasachi</h3>
+        <p class="footer__copy">© 2026 Sabyasachi. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
