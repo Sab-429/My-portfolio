@@ -425,7 +425,6 @@
                 <a href="#flows">Workflows</a>
                 <a href="#k8s">Kubernetes</a>
                 <a href="#ops">DevOps</a>
-                <a href="#gaps">Gaps &amp; roadmap</a>
               </div>
             </div>
           </div>
@@ -565,17 +564,6 @@
             </section>
 
             <section id="gaps">
-              <h2>7. Gaps &amp; target pipeline</h2>
-              <div class="card scroll"><table>
-              <tr><th>Area</th><th>Current</th><th>Risk</th></tr>
-              <tr><td>Secrets</td><td>Plaintext in secret.yaml, committed to repo — rotate and move to Sealed Secrets / Vault</td><td><span class="tag H">High</span></td></tr>
-              <tr><td>CI/CD</td><td>Manual kubectl apply, no tests</td><td><span class="tag H">High</span></td></tr>
-              <tr><td>High availability</td><td>1 replica everywhere</td><td><span class="tag H">High</span></td></tr>
-              <tr><td>Storage</td><td>Single-node hostPath with RWX claim</td><td><span class="tag H">High</span></td></tr>
-              <tr><td>RBAC / NetworkPolicy / TLS / HPA</td><td>None configured</td><td><span class="tag M">Medium</span></td></tr>
-              <tr><td>Image tags</td><td>Mutable <code>localv1</code>/<code>localv2</code></td><td><span class="tag M">Medium</span></td></tr>
-              <tr><td>Local Postgres manifest</td><td>Unused; app points at Neon</td><td><span class="tag L">Low</span></td></tr>
-              </table></div>
               <div class="card" style="margin-top:14px"><h3>Target pipeline</h3>
               <div class="pipe">
               <div class="st"><b>🔀</b>Git push</div><span class="ar">→</span>

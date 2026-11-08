@@ -272,10 +272,17 @@ img {
 .about__img {
   justify-self: center;
   position: relative;
+  width: min(100%, 300px);
+  margin: 0 auto;
 }
 
 .about__img img {
-  width: 220px;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 1rem;
   box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
   transition: transform 0.4s ease;
@@ -309,21 +316,17 @@ img {
   .about__text {
     margin: 0;
   }
-
-  .about__img img {
-    width: 260px;
-  }
 }
 
 .about__img::after {
   content: "";
   position: absolute;
-  width: 220px;
-  height: 220px;
-  border: 3px solid var(--first-color);
-  border-radius: 1rem;
   top: 10px;
   left: 10px;
+  right: -10px;
+  bottom: -10px;
+  border: 3px solid var(--first-color);
+  border-radius: 1rem;
   z-index: -1;
 }
 
@@ -789,10 +792,6 @@ img {
 
   .about__container {
     padding-top: 2rem;
-  }
-
-  .about__img img {
-    width: 300px;
   }
 
   .skills__container {

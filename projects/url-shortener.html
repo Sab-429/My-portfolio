@@ -1,114 +1,1279 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>URL Shortener | Sabyasachi Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/styles.css" />
-    <!-- =====BOX ICONS===== -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="l-header">
-      <nav class="nav bd-grid">
-        <div>
-          <a href="../index.html" class="nav__logo">Sabyasachi</a>
-        </div>
-        <a href="../index.html#work" class="nav__link">
-          <i class="bx bx-left-arrow-alt"></i> Back to Projects
-        </a>
-      </nav>
-    </header>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>URL Shortener Architecture</title>
+<link rel="stylesheet" href="../assets/css/styles.css" />
+<!-- =====BOX ICONS===== -->
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>
+/* Layout concept: one long reading column. Each section is a short explanation
+   followed by a live diagram or simulation. The orange dot is always "the request". */
+:root{
+  --bg:#ffffff; --surface:#eef4ff; --surface-2:#dfeafd; --ink:#13202c; --muted:#53657a; --line:#d1dbe5;
+  /* --surface = the light-blue boxes; --control = buttons/inputs stay neutral white */
+  --control:#ffffff;
+  --accent:#d9480f; --accent-soft:#fde9dd; --hit:#13795b; --miss:#b42318; --on-signal:#ffffff;
+  --code-bg:#f2f7ff; --code-ink:#13202c; --code-dim:#66798c;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1620; --surface:#152130; --surface-2:#1c2b3c; --ink:#e5edf5; --muted:#93a6b8; --line:#283a4d;
+    --control:#152130;
+    --accent:#ff8a4c; --accent-soft:#3a2418; --hit:#4cd5a0; --miss:#ff7a6e; --on-signal:#06150f;
+    --code-bg:#0a121a; --code-ink:#cfdbe7; --code-dim:#6f879b;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1620; --surface:#152130; --surface-2:#1c2b3c; --ink:#e5edf5; --muted:#93a6b8; --line:#283a4d;
+  --control:#152130;
+  --accent:#ff8a4c; --accent-soft:#3a2418; --hit:#4cd5a0; --miss:#ff7a6e; --on-signal:#06150f;
+  --code-bg:#0a121a; --code-ink:#cfdbe7; --code-dim:#6f879b;
+  color-scheme:dark;
+}
 
-    <main class="l-main">
-      <section class="project section" id="project">
-        <div class="project__container bd-grid">
-          <div class="project__data">
-            <a href="../index.html#work" class="back-link">
-              <i class="bx bx-left-arrow-alt"></i> Back to Projects
-            </a>
-            <h1 class="project__title">URL Shortener &mdash; ShortLinks</h1>
-            <p class="project__description">
-              A full-stack URL shortener application built with Next.js, Tailwind
-              CSS, Express, and MongoDB Atlas. Shorten long URLs, manage links,
-              and redirect visitors instantly.
-            </p>
-            <div class="project__tech">
-              <span>Next.js</span>
-              <span>MongoDB</span>
-              <span>Express</span>
-              <span>Tailwind CSS</span>
-              <span>Postman</span>
-            </div>
-            <div class="project__links">
-              <a
-                href="https://github.com/Sab-429/shortlink"
-                target="_blank"
-                class="work__button work__repo"
-              >
-                <i class="bx bxl-github"></i> View Code
-              </a>
-            </div>
-          </div>
+/* The shared portfolio header is retheme for this page: white bar, theme-aware text */
+.l-header{background:var(--bg);box-shadow:0 1px 0 var(--line)}
+.nav__logo,.nav__link{color:var(--ink)}
 
-          <div class="project__content">
-            <div class="workflows">
-              <h3><i class="bx bx-task"></i> Workflows</h3>
-              <div class="workflow-step">
-                <strong>1. Shorten a URL</strong><br />
-                The user submits a long URL through the Next.js frontend
-                (Tailwind CSS). The request hits a Next.js API route that talks
-                to the Express backend.
-              </div>
-              <div class="workflow-step">
-                <strong>2. Generate short code</strong><br />
-                Express validates the URL, generates a unique short code, and
-                stores the mapping (short code → long URL) in MongoDB Atlas.
-              </div>
-              <div class="workflow-step">
-                <strong>3. Redirect</strong><br />
-                When someone visits the short link, Express resolves the code
-                from MongoDB Atlas and issues an HTTP redirect to the original
-                URL.
-              </div>
-              <div class="workflow-step">
-                <strong>4. Testing</strong><br />
-                All backend endpoints are validated with Postman to confirm
-                request/response cycles, CRUD behavior, and schema design.
-              </div>
-            </div>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(3rem + 40px)}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:400 16px/1.6 var(--f-body);
+  /* Clear the fixed 3rem navbar, then keep the original 40px breathing room */
+  padding-block:calc(3rem + 40px) 80px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:88px}
+/* Grid items default to min-width:auto, which clamps them to their content's
+   min-content width. Wide children (760px diagram, 560px tables) then forced the
+   whole page sideways; minmax(0,1fr) + min-width:0 lets them scroll inside. */
+.wrap>*,section>*,.player>*,.two>*{min-width:0}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(38px,6vw,68px);line-height:1.02;font-weight:700}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.12;font-weight:700}
+h3{font-size:18px;line-height:1.25;font-weight:600}
+p{margin:0}
+.lead{color:var(--muted);max-width:66ch;margin-top:12px}
+.mono{font-family:var(--f-mono)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;min-width:0}
+.sec-head{display:grid;gap:4px}
 
-            <div class="architectures">
-              <h3><i class="bx bx-planet"></i> Architectures</h3>
-              <div class="architecture-item">
-                <strong>Frontend:</strong><br />
-                Next.js pages + Tailwind CSS for a responsive, clean layout that
-                calls the API routes.
-              </div>
-              <div class="architecture-item">
-                <strong>API layer:</strong><br />
-                Next.js API routes → Express server → business logic for
-                validation, short-code generation, and redirection.
-              </div>
-              <div class="architecture-item">
-                <strong>Data layer:</strong><br />
-                MongoDB Atlas (cloud NoSQL) stores URL mappings with indexes on
-                the short code for fast lookups and CRUD operations.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+/* hero */
+.kicker{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.hero .lead{font-size:18px;margin-top:20px}
+.xform{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:20px;align-items:center;margin-top:36px;padding:20px 0;border-block:1px solid var(--line)}
+.xform .long{font:400 12.5px/1.5 var(--f-mono);color:var(--muted);word-break:break-all}
+.xform .arrow{font:600 22px var(--f-mono);color:var(--accent)}
+.xform .short{font:500 clamp(22px,3.4vw,34px)/1 var(--f-mono);white-space:nowrap}
+.xform .host{color:var(--muted)}
+.xform .code{color:var(--accent);animation:glow 3.2s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:1}50%{opacity:.55}}
+@media (max-width:720px){.xform{grid-template-columns:minmax(0,1fr);gap:10px}.xform .arrow{transform:rotate(90deg);justify-self:start}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:0;margin:0}
+.facts>div{padding:20px 24px 4px 0}
+.facts dt{font:600 34px/1 var(--f-mono);color:var(--ink)}
+.facts dd{margin:8px 0 0;color:var(--muted);font-size:14px;max-width:30ch}
+.toc{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px;font:500 14px var(--f-mono)}
+.toc a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.toc a:hover{color:var(--accent);border-color:var(--accent)}
 
-    <footer class="footer">
-      <div class="footer__container">
-        <h3 class="footer__title">Sabyasachi</h3>
-        <p class="footer__copy">© 2026 Sabyasachi. All rights reserved.</p>
+/* controls */
+button{font:500 14px/1.2 var(--f-body);color:var(--ink);background:var(--control);border:1px solid var(--line);border-radius:4px;padding:9px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed="true"],button.on{background:var(--accent);border-color:var(--accent);color:var(--on-signal)}
+.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.seg{display:inline-flex;flex-wrap:wrap;gap:0}
+.seg button{border-radius:0;margin-left:-1px}
+.seg button:first-child{border-radius:4px 0 0 4px;margin-left:0}
+.seg button:last-child{border-radius:0 4px 4px 0}
+.ctl{display:flex;gap:8px;margin-left:auto}
+label.fld{display:grid;gap:6px;font:500 12px var(--f-mono);color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+input[type=number],input[type=text],select{font:500 15px var(--f-mono);color:var(--ink);background:var(--control);border:1px solid var(--line);border-radius:4px;padding:9px 10px;min-width:0;width:100%}
+input[type=range]{width:100%;accent-color:var(--accent)}
+
+/* player */
+.player{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+@media (max-width:1060px){.player{grid-template-columns:minmax(0,1fr)}}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.stage-scroll{overflow-x:auto}
+.stage svg{display:block;width:100%;min-width:760px;height:auto}
+.say{margin-top:18px;min-height:112px;display:grid;gap:6px;align-content:start}
+.say .cnt{font:500 12px var(--f-mono);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.say p{color:var(--muted);max-width:70ch}
+.steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.steps li{border-bottom:1px solid var(--line)}
+.steps button{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;width:100%;text-align:left;background:transparent;border:0;border-radius:0;padding:12px 8px;color:var(--muted)}
+.steps button .num{font:500 13px var(--f-mono);color:var(--muted)}
+.steps button.on{background:var(--accent-soft);color:var(--ink)}
+.steps button.on .num{color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 24px;font:400 12.5px var(--f-mono);color:var(--muted)}
+.legend i{display:inline-block;width:28px;height:0;border-top:2px solid var(--line);vertical-align:middle;margin-right:8px}
+.legend i.d{border-top-style:dashed}
+.legend i.o{border-top-color:var(--accent)}
+
+/* svg theme */
+.edge{stroke:var(--line);stroke-width:1.5;fill:none}
+.edge.dash{stroke-dasharray:5 5}
+.edge.on{stroke:var(--accent);stroke-width:2.5}
+.node rect.main{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.node rect.back{fill:var(--surface-2);stroke:var(--line);stroke-width:1.5}
+.node.on rect.main{stroke:var(--accent);stroke-width:2.5}
+.node .t{font:600 13px var(--f-body);fill:var(--ink)}
+.node .s{font:400 10px var(--f-mono);fill:var(--muted)}
+.node.dead rect.main{stroke:var(--miss);stroke-dasharray:4 3}
+.node.flash rect.main{fill:var(--accent-soft);stroke:var(--miss);stroke-width:2.5}
+.svg-note{font:400 10.5px var(--f-mono);fill:var(--muted)}
+.badge{opacity:0;transition:opacity .2s}
+.badge.show{opacity:1}
+.badge rect{fill:var(--muted)}
+.badge.hit rect{fill:var(--hit)}
+.badge.miss rect{fill:var(--miss)}
+.badge text{font:600 10px var(--f-mono);fill:var(--on-signal)}
+.dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.dot.fail{fill:var(--miss)}
+.plabel{font:500 11px var(--f-mono);fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+
+/* generic blocks */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+.table-scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+pre{margin:0;background:var(--code-bg);color:var(--code-ink);border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;font:400 13px/1.65 var(--f-mono);tab-size:2}
+pre .c{color:var(--code-dim)}
+.cap{font:500 12px var(--f-mono);color:var(--muted);letter-spacing:.04em;margin-bottom:8px;text-transform:uppercase}
+.note{font-size:14px;color:var(--muted)}
+.stat{font:600 28px/1.1 var(--f-mono)}
+.stat small{display:block;font:400 12.5px/1.4 var(--f-body);color:var(--muted);margin-top:6px}
+.hit-t{color:var(--hit)} .miss-t{color:var(--miss)} .acc-t{color:var(--accent)}
+
+/* base62 demo */
+.b62 .row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.6fr) 48px;gap:8px;font:400 14px var(--f-mono);padding:7px 0;border-bottom:1px dashed var(--line);animation:rowin .35s both;animation-delay:calc(var(--i) * .3s)}
+.b62 .row b{font-weight:600}
+.b62 .ch{color:var(--accent);font-size:18px}
+.b62 .n{overflow-wrap:anywhere}
+@keyframes rowin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.b62out{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.b62out span{display:inline-grid;place-items:center;width:44px;height:56px;background:var(--accent);color:var(--on-signal);border-radius:4px;font:600 26px var(--f-mono);animation:pop .35s both;animation-delay:calc(var(--j) * .3s)}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+
+/* cache sim */
+.slots{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.slot{flex:1 1 92px;min-width:92px;height:54px;display:grid;place-items:center;border:1.5px dashed var(--line);border-radius:4px;font:500 13px var(--f-mono);color:var(--muted);transition:background .25s,border-color .25s}
+.slot.full{border-style:solid;color:var(--ink);background:var(--surface-2)}
+.slot.fresh{border-color:var(--accent);background:var(--accent-soft)}
+.slot.gone{border-color:var(--miss);color:var(--miss)}
+.axis{display:flex;justify-content:space-between;font:400 11.5px var(--f-mono);color:var(--muted)}
+.ticks{display:flex;gap:2px;height:22px;align-items:flex-end;margin-top:14px;overflow:hidden}
+.ticks i{flex:1 1 0;min-width:3px;max-width:10px;height:100%;background:var(--hit);opacity:.9}
+.ticks i.m{background:var(--miss);height:55%}
+.verdict{font:600 15px var(--f-mono);min-height:24px}
+
+/* shard sim */
+.bars{display:flex;gap:10px;align-items:flex-end;height:170px;border-bottom:1px solid var(--line);padding-top:10px}
+.bars div{flex:1 1 0;min-width:0;display:grid;align-content:end;justify-items:center;height:100%}
+.bars b{display:block;width:100%;max-width:64px;background:var(--accent);transition:height .45s ease;border-radius:3px 3px 0 0}
+.bars span{font:500 11.5px var(--f-mono);margin-bottom:4px;color:var(--ink)}
+.bars-l{display:flex;gap:10px;margin-top:6px}
+.bars-l span{flex:1 1 0;text-align:center;font:400 11.5px var(--f-mono);color:var(--muted)}
+
+/* edge cases */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:0 40px}
+.cases article{padding:18px 0;border-top:1px solid var(--line)}
+.cases p{margin-top:6px;color:var(--muted);font-size:15px}
+.build{margin:0;padding:0;list-style:none;display:grid;gap:0;counter-reset:b}
+.build li{counter-increment:b;display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;padding:14px 0;border-top:1px solid var(--line)}
+.build li::before{content:counter(b);font:500 14px var(--f-mono);color:var(--accent)}
+.build b{font-weight:600}
+
+/* ---- Responsive behaviour ------------------------------------------------ */
+/* Scrollable regions: nicer scrollbar + inertial scrolling on touch */
+.stage-scroll,.table-scroll,pre{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.stage-scroll,.table-scroll{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.stage-scroll::-webkit-scrollbar,.table-scroll::-webkit-scrollbar,pre::-webkit-scrollbar{height:9px;width:9px}
+.stage-scroll::-webkit-scrollbar-thumb,.table-scroll::-webkit-scrollbar-thumb,pre::-webkit-scrollbar-thumb{background:var(--line);border-radius:9px}
+.stage-scroll::-webkit-scrollbar-track,pre::-webkit-scrollbar-track{background:transparent}
+
+@media (max-width:768px){
+  html{scroll-padding-top:calc(3rem + 24px)}
+  body{padding-block:calc(3rem + 24px) 56px}
+
+  .wrap{gap:56px}
+  section{gap:20px}
+  .sec-head{gap:2px}
+  .two{gap:18px}
+
+  .hero .lead{font-size:16.5px}
+  .facts>div{padding:16px 12px 4px 0}
+  .facts dt{font-size:30px}
+  .xform{margin-top:26px;padding:16px 0}
+  .toc{gap:12px 18px;margin-top:22px}
+  .toc a{position:relative;padding:7px 0 6px} /* comfortable tap target */
+  /* 44px touch area without pushing the underline away from the text */
+  .toc a::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+
+  .panel{padding:16px}
+  pre{padding:14px;font-size:12.5px}
+  th,td{padding:9px 10px 9px 0}
+  .cases{gap:0 24px}
+  .stat{font-size:24px}
+
+  button{min-height:44px;padding:10px 16px}
+  .bar{gap:10px 16px}
+
+  .b62 .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px;gap:6px;font-size:13px}
+  .b62out span{width:40px;height:50px;font-size:22px}
+  .bars{height:150px}
+
+  /* Let the wide diagram fit the viewport instead of always scrolling */
+  .stage svg{min-width:640px}
+}
+
+@media (max-width:400px){
+  pre{padding:12px;font-size:12px}
+  .b62 .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 34px}
+  .b62out span{width:36px;height:46px;font-size:20px}
+  h3{font-size:17px}
+  .facts dt{font-size:28px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<header class="l-header">
+  <nav class="nav bd-grid">
+    <div>
+      <a href="../index.html" class="nav__logo">Sabyasachi</a>
+    </div>
+    <a href="../index.html#work" class="nav__link">
+      <i class="bx bx-left-arrow-alt"></i> Back to Projects
+    </a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+<!-- HERO -->
+<header class="hero">
+  <p class="kicker">System design walkthrough</p>
+  <h1>A short code in,<br>a long URL out.</h1>
+  <p class="lead">How a Bitly-style link shortener is put together: reverse proxy, stateless API servers, an ID service, Redis, a database with replicas and shards, and an analytics pipeline. Each flow plays as an animation you can pause and step through.</p>
+
+  <div class="xform" aria-label="Example of a long URL and its short link">
+    <div class="long">https://www.example.com/products/shoes/running?utm_source=newsletter&amp;utm_campaign=autumn-sale&amp;ref=home-banner&amp;session=9f2c1a</div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="short"><span class="host">sho.rt/</span><span class="code">2crtgcW</span></div>
+  </div>
+
+  <dl class="facts">
+    <div><dt>100 : 1</dt><dd>Clicks per link created. Reads dominate, so the design protects the redirect path.</dd></div>
+    <div><dt>62⁷</dt><dd>3,521,614,606,208 possible codes from 7 characters of a–z, A–Z, 0–9.</dd></div>
+    <div><dt>302</dt><dd>The redirect status to use when every click has to reach your servers and be counted.</dd></div>
+  </dl>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#flows">Request flows</a>
+    <a href="#codes">Short codes</a>
+    <a href="#proxy">Proxy and load balancer</a>
+    <a href="#cache">Cache</a>
+    <a href="#data">Database and shards</a>
+    <a href="#capacity">Capacity math</a>
+    <a href="#edge">Edge cases</a>
+  </nav>
+</header>
+
+<!-- FLOWS -->
+<section id="flows">
+  <div class="sec-head">
+    <h2>How a request moves through the system</h2>
+    <p class="lead">Pick a flow. The orange dot is the request, and the highlighted line is the hop it is on. Use Back and Next to step, or click any step on the right.</p>
+  </div>
+
+  <div class="bar">
+    <div class="seg" id="sceneTabs" role="group" aria-label="Flow">
+      <button type="button" data-scene="create" aria-pressed="true">Create a link</button>
+      <button type="button" data-scene="redirect" aria-pressed="false">Open a link</button>
+      <button type="button" data-scene="analytics" aria-pressed="false">Count the click</button>
+    </div>
+    <div class="seg" id="modeTabs" role="group" aria-label="Cache state" hidden>
+      <button type="button" data-mode="hit" aria-pressed="true">Cache hit</button>
+      <button type="button" data-mode="miss" aria-pressed="false">Cache miss</button>
+    </div>
+    <div class="ctl">
+      <button type="button" id="btnPrev">Back</button>
+      <button type="button" id="btnPlay">Pause</button>
+      <button type="button" id="btnNext">Next</button>
+    </div>
+  </div>
+
+  <div class="player">
+    <div>
+      <div class="stage"><div class="stage-scroll">
+        <svg id="diagram" viewBox="0 0 820 480" role="img" aria-label="Architecture diagram: client, reverse proxy, API servers, ID service, Redis cache, database primary and replicas, Kafka and analytics store"></svg>
+      </div></div>
+      <div class="say">
+        <span class="cnt" id="sayCount"></span>
+        <h3 id="sayTitle"></h3>
+        <p id="sayText"></p>
       </div>
-    </footer>
-  </body>
+    </div>
+    <ol class="steps" id="steps"></ol>
+  </div>
+
+  <div class="legend">
+    <span><i></i>synchronous call</span>
+    <span><i class="d"></i>background or async</span>
+    <span><i class="o"></i>current hop</span>
+  </div>
+
+  <div class="panel">
+    <h3>Which redirect status to send</h3>
+    <div class="table-scroll" style="margin-top:8px"><table>
+      <thead><tr><th></th><th>301 Moved Permanently</th><th>302 Found</th></tr></thead>
+      <tbody>
+        <tr><td>Browser caching</td><td>Browsers may remember the target and skip your server on repeat clicks.</td><td>Not cached by default, so each click asks your server.</td></tr>
+        <tr><td>Server load</td><td>Lower.</td><td>Higher, one request per click.</td></tr>
+        <tr><td>Click analytics</td><td>Repeat clicks from the same browser are invisible to you.</td><td>Every click is counted.</td></tr>
+        <tr><td>Changing the target later</td><td>Hard, because browsers keep the old answer.</td><td>Easy.</td></tr>
+        <tr><td>Choose it when</td><td>Links never change and you do not need per-click data.</td><td>You sell analytics, expiry, or editable links.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- CODES -->
+<section id="codes">
+  <div class="sec-head">
+    <h2>Turning a number into a short code</h2>
+    <p class="lead">The API server holds a unique integer ID, then writes it in base 62. Dividing by 62 repeatedly gives the digits, and each digit maps to one character. Change the ID and watch the code rebuild.</p>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <label class="fld" for="b62in">Unique ID (0 to 3,521,614,606,207)
+        <input id="b62in" type="number" min="0" max="3521614606207" step="1" value="125000000042">
+      </label>
+      <div class="bar" style="margin-top:12px">
+        <button type="button" id="b62next">Next ID (+1)</button>
+        <button type="button" id="b62rand">Random ID</button>
+      </div>
+      <p class="note" style="margin-top:14px">Alphabet: <span class="mono">0–9</span> are values 0–9, <span class="mono">a–z</span> are 10–35, <span class="mono">A–Z</span> are 36–61. The code is read from the last remainder to the first.</p>
+      <div class="cap" style="margin-top:18px">Short code (<span id="b62len">7</span> characters)</div>
+      <div class="b62out" id="b62code" aria-live="polite"></div>
+    </div>
+    <div class="panel b62">
+      <div class="cap">Divide by 62 until the quotient is 0</div>
+      <div id="b62rows"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Four ways to produce the ID</h3>
+    <div class="table-scroll" style="margin-top:8px"><table>
+      <thead><tr><th>Approach</th><th>How it works</th><th>Collisions</th><th>The catch</th></tr></thead>
+      <tbody>
+        <tr><td>Hash and truncate</td><td>MD5 or SHA-256 of the long URL, keep the first 7 characters.</td><td>Possible</td><td>Check the database on every create and retry with a salt on a clash. The same URL always gets the same code.</td></tr>
+        <tr><td>Random string</td><td>Pick 7 random characters.</td><td>Rare at first, more likely as the table fills</td><td>One read before every write to check the code is free.</td></tr>
+        <tr><td>Counter + base62</td><td>A shared counter hands out increasing integers.</td><td>Never</td><td>Needs a distributed counter. Codes are sequential, so people can guess neighbours.</td></tr>
+        <tr><td>Snowflake-style ID</td><td>Timestamp, machine ID and sequence packed into 63 bits.</td><td>Never</td><td>Needs no coordination, but base62 of 63 bits is 11 characters, not 7.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:14px">The diagram above uses counter + base62 with block leasing. Each API server asks the ID service for 1,000 IDs at once, then serves them from memory, so the ID service sees one call per 1,000 new links. To hide the sequence, run the ID through a reversible shuffle before encoding.</p>
+  </div>
+</section>
+
+<!-- PROXY -->
+<section id="proxy">
+  <div class="sec-head">
+    <h2>Reverse proxy and load balancer</h2>
+    <p class="lead">Nginx (or a cloud load balancer) is the only public entry point. It ends TLS, limits abusive callers, and spreads requests across API servers. Stop a server below. The proxy keeps sending to it until its health check fails, retries the failed request on another server, then drops it from rotation.</p>
+  </div>
+
+  <div class="bar" id="lbBtns">
+    <button type="button" id="lbSend">Send request</button>
+    <button type="button" id="lbAuto" aria-pressed="true">Auto traffic: on</button>
+    <button type="button" data-srv="0" aria-pressed="false">Stop api-1</button>
+    <button type="button" data-srv="1" aria-pressed="false">Stop api-2</button>
+    <button type="button" data-srv="2" aria-pressed="false">Stop api-3</button>
+  </div>
+  <div class="stage"><div class="stage-scroll">
+    <svg id="lbsvg" viewBox="0 0 720 300" role="img" aria-label="Load balancer distributing requests across three API servers"></svg>
+  </div></div>
+  <div class="bar" style="gap:28px">
+    <div class="stat" id="lbSent">0<small>requests sent</small></div>
+    <div class="stat acc-t" id="lbRetry">0<small>retried on another server</small></div>
+    <div class="stat miss-t" id="lbDrop">0<small>failed with 503</small></div>
+  </div>
+
+  <div class="two">
+    <div>
+      <div class="cap">nginx.conf (excerpt)</div>
+<pre><span class="c"># 10 create requests per second per IP, bursts of 20</span>
+limit_req_zone $binary_remote_addr zone=shorten:10m rate=10r/s;
+
+upstream api {
+    server api-1:8080 max_fails=2 fail_timeout=5s;
+    server api-2:8080 max_fails=2 fail_timeout=5s;
+    server api-3:8080 max_fails=2 fail_timeout=5s;
+    keepalive 64;
+}
+
+server {
+    listen 443 ssl;
+    server_name sho.rt;
+    <span class="c"># ssl_certificate and ssl_certificate_key go here</span>
+
+    location = /api/v1/shorten {
+        limit_req zone=shorten burst=20 nodelay;
+        proxy_pass http://api;
+    }
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_next_upstream error timeout http_502 http_503;
+        proxy_pass http://api;
+    }
+}</pre>
+    </div>
+    <div class="panel">
+      <h3>What the proxy layer does</h3>
+      <div class="table-scroll" style="margin-top:8px"><table style="min-width:0">
+        <tbody>
+          <tr><td>TLS</td><td>Terminated once here, so API servers speak plain HTTP on the private network.</td></tr>
+          <tr><td>Rate limiting</td><td>Token bucket per IP or API key. Create is limited tightly, redirects loosely.</td></tr>
+          <tr><td>Balancing</td><td>Round robin works because API servers are stateless. Any server can answer any request.</td></tr>
+          <tr><td>Health checks</td><td>Failed upstreams are skipped for a cooling-off period.</td></tr>
+          <tr><td>Keepalive</td><td>Reuses connections to API servers instead of opening one per click.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<!-- CACHE -->
+<section id="cache">
+  <div class="sec-head">
+    <h2>The cache that takes most of the traffic</h2>
+    <p class="lead">Redis sits beside the API servers using cache-aside. Read the cache first, go to the database only on a miss, then store the answer. With <span class="mono">maxmemory-policy allkeys-lru</span>, Redis evicts the key used longest ago when memory is full. A few links get most of the clicks, so a small cache covers a lot. Send requests and watch it.</p>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <div class="bar">
+        <button type="button" id="cSend1">Send 1 click</button>
+        <button type="button" id="cSend50">Send 50</button>
+        <button type="button" id="cAuto" aria-pressed="false">Auto: off</button>
+        <button type="button" id="cReset">Reset</button>
+      </div>
+      <label class="fld" for="cCap" style="margin-top:16px">Cache size: <span id="cCapOut">4</span> keys
+        <input id="cCap" type="range" min="2" max="8" step="1" value="4">
+      </label>
+      <div class="slots" id="slots" aria-label="Cache contents"></div>
+      <div class="axis"><span>most recently used</span><span>evicted next</span></div>
+      <div class="ticks" id="ticks" aria-hidden="true"></div>
+      <div class="verdict" id="verdict" style="margin-top:12px"></div>
+    </div>
+    <div class="panel">
+      <div class="two" style="gap:18px">
+        <div class="stat" id="cHits">0%<small>cache hit rate</small></div>
+        <div class="stat" id="cLat">0 ms<small>average redirect lookup</small></div>
+        <div class="stat" id="cTotal">0<small>clicks so far</small></div>
+        <div class="stat" id="cDb">0<small>database reads</small></div>
+      </div>
+      <p class="note" style="margin-top:16px">Click popularity follows a Zipf-like curve over 12 links: the first code gets the most clicks and the twelfth the fewest. Latency assumes 1 ms for a cache read and 15 ms for a database read. Those two numbers are illustrative, so measure your own.</p>
+    </div>
+  </div>
+
+  <div class="two">
+    <div>
+      <div class="cap">Redirect handler (pseudocode)</div>
+<pre>app.get('/:code', async (req, res) =&gt; {
+  const { code } = req.params;
+
+  let url = await redis.get(code);          <span class="c">// 1. cache first</span>
+  if (!url) {
+    const row = await replica.findOne(code); <span class="c">// 2. miss: read replica</span>
+    if (!row || (row.expires_at &amp;&amp; new Date() &gt; row.expires_at)) {
+      return res.sendStatus(404);
+    }
+    url = row.long_url;
+    await redis.set(code, url, 'EX', 86400); <span class="c">// 3. refill, 24h TTL</span>
+  }
+
+  <span class="c">// 4. fire and forget: never wait on analytics</span>
+  kafka.send('clicks', { code, ts: Date.now() }).catch(() =&gt; {});
+
+  res.redirect(302, url);
+});</pre>
+    </div>
+    <div class="panel">
+      <h3>Where a click can be answered</h3>
+      <div class="table-scroll" style="margin-top:8px"><table style="min-width:0">
+        <thead><tr><th>Layer</th><th>When it applies</th></tr></thead>
+        <tbody>
+          <tr><td>Browser</td><td>Only with a 301 or explicit cache headers.</td></tr>
+          <tr><td>CDN edge</td><td>If you allow edge caching of redirects. Fastest, but clicks never reach you.</td></tr>
+          <tr><td>In-process LRU</td><td>A tiny cache inside each API server for a few seconds. Shields Redis from one viral link.</td></tr>
+          <tr><td>Redis</td><td>The main cache for code to URL.</td></tr>
+          <tr><td>Database</td><td>Last resort on a miss. Primary key lookup on a replica.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section id="data">
+  <div class="sec-head">
+    <h2>Database, replicas and shards</h2>
+    <p class="lead">The core access pattern is one lookup by code, which fits a key-value store as well as a relational table. Postgres, MySQL, DynamoDB, Cassandra and MongoDB all work with <span class="mono">code</span> as the key. Writes go to a primary, cache misses read from replicas, and when one primary can no longer take the writes, split the table across shards by a hash of the code.</p>
+  </div>
+
+  <div class="two">
+    <div>
+      <div class="cap">Schema</div>
+<pre>CREATE TABLE urls (
+  code        VARCHAR(10)  PRIMARY KEY,
+  long_url    TEXT         NOT NULL,
+  user_id     BIGINT,
+  created_at  TIMESTAMPTZ  NOT NULL DEFAULT now(),
+  expires_at  TIMESTAMPTZ
+);
+CREATE INDEX urls_user_idx ON urls (user_id, created_at DESC);
+
+CREATE TABLE users (
+  id          BIGSERIAL    PRIMARY KEY,
+  email       TEXT         UNIQUE NOT NULL,
+  api_key     TEXT         UNIQUE NOT NULL,
+  created_at  TIMESTAMPTZ  NOT NULL DEFAULT now()
+);
+
+<span class="c">-- analytics store (ClickHouse): append-only</span>
+CREATE TABLE clicks (
+  code     String,
+  ts       DateTime,
+  country  LowCardinality(String),
+  device   LowCardinality(String),
+  referrer String
+) ENGINE = MergeTree ORDER BY (code, ts);</pre>
+    </div>
+    <div class="panel">
+      <h3>API surface</h3>
+      <div class="table-scroll" style="margin-top:8px"><table style="min-width:0">
+        <thead><tr><th>Call</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td class="mono" style="white-space:normal">POST /api/v1/shorten</td><td>201 with the short URL. 409 if a custom alias is taken. 429 when rate limited.</td></tr>
+          <tr><td class="mono" style="white-space:normal">GET /{code}</td><td>302 to the long URL. 404 if unknown or expired.</td></tr>
+          <tr><td class="mono" style="white-space:normal">DELETE /api/v1/links/{code}</td><td>204. Removes the row and the cache key.</td></tr>
+          <tr><td class="mono" style="white-space:normal">GET /api/v1/links/{code}/stats</td><td>Click totals by day, country, device and referrer from the analytics store.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Sharding by hash of the code</h3>
+    <p class="note" style="margin-top:6px;max-width:80ch">3,000 sample codes are spread across the shards. The numbers show what happens when you add one more shard. Plain <span class="mono">hash mod N</span> reassigns most keys, which means a huge data move. Consistent hashing places shards on a ring, so a new shard takes keys from its neighbours only.</p>
+    <div class="two" style="margin-top:18px">
+      <div>
+        <label class="fld" for="nShards">Shards: <span id="nOut">4</span>
+          <input id="nShards" type="range" min="2" max="8" step="1" value="4">
+        </label>
+        <div class="seg" id="methodTabs" role="group" aria-label="Placement method" style="margin:14px 0">
+          <button type="button" data-method="mod" aria-pressed="false">hash mod N</button>
+          <button type="button" data-method="ring" aria-pressed="true">Consistent hashing</button>
+        </div>
+        <div class="bars" id="bars"></div>
+        <div class="bars-l" id="barsL"></div>
+      </div>
+      <div style="display:grid;gap:18px">
+        <div class="stat miss-t" id="moveMod">0%<small>of keys move with hash mod N when adding a shard</small></div>
+        <div class="stat hit-t" id="moveRing">0%<small>of keys move with consistent hashing when adding a shard</small></div>
+        <label class="fld" for="lookup">Look up a code
+          <input id="lookup" type="text" value="2crtgcW" maxlength="10" spellcheck="false" autocomplete="off">
+        </label>
+        <div class="note mono" id="lookOut"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPACITY -->
+<section id="capacity">
+  <div class="sec-head">
+    <h2>Capacity math</h2>
+    <p class="lead">Back-of-the-envelope numbers decide how many servers, how much cache and how much disk you need. Change the assumptions and the results update.</p>
+  </div>
+  <div class="two">
+    <div class="panel" style="display:grid;gap:16px">
+      <label class="fld" for="capNew">New links per month
+        <select id="capNew">
+          <option value="10000000">10 million</option>
+          <option value="100000000" selected>100 million</option>
+          <option value="500000000">500 million</option>
+          <option value="1000000000">1 billion</option>
+        </select>
+      </label>
+      <label class="fld" for="capRatio">Clicks per link created: <span id="capRatioOut">100</span>
+        <input id="capRatio" type="range" min="10" max="500" step="10" value="100">
+      </label>
+      <label class="fld" for="capBytes">Bytes per stored link: <span id="capBytesOut">500</span>
+        <input id="capBytes" type="range" min="200" max="1000" step="50" value="500">
+      </label>
+      <label class="fld" for="capYears">Keep data for
+        <select id="capYears">
+          <option value="1">1 year</option>
+          <option value="3">3 years</option>
+          <option value="5" selected>5 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </label>
+    </div>
+    <div class="panel">
+      <div class="two" style="gap:20px">
+        <div class="stat" id="oW">0<small>link creations per second (average)</small></div>
+        <div class="stat" id="oR">0<small>redirects per second (average)</small></div>
+        <div class="stat" id="oP">0<small>redirects per second at peak (5× average)</small></div>
+        <div class="stat" id="oS">0<small>storage for all stored links</small></div>
+        <div class="stat" id="oD">0<small>redirects per day</small></div>
+        <div class="stat" id="oC">0<small>cache to hold 20% of a day's redirects (upper bound)</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDGE CASES -->
+<section id="edge">
+  <div class="sec-head">
+    <h2>Edge cases that break naive versions</h2>
+  </div>
+  <div class="cases">
+    <article><h3>Custom alias clashes</h3><p>Counter IDs never collide, but a user-chosen alias can. Make <span class="mono">code</span> the primary key and return 409 on a unique-constraint error instead of checking first.</p></article>
+    <article><h3>Expired links</h3><p>Check <span class="mono">expires_at</span> on read, cap the Redis TTL at the time left, and run a batch job off-peak to delete expired rows.</p></article>
+    <article><h3>Cache stampede on a viral link</h3><p>When a hot key expires, thousands of requests miss at once. Let one request refill the cache while the rest wait, and add random jitter to TTLs.</p></article>
+    <article><h3>One hot key</h3><p>A single celebrity link can saturate one Redis node. Keep a small in-process cache on each API server for a few seconds, or replicate hot keys.</p></article>
+    <article><h3>Replica lag</h3><p>A brand-new link can 404 if read from a replica that has not caught up. The create path writes to Redis, and a miss on a recently created code can fall back to the primary.</p></article>
+    <article><h3>Bots guessing codes</h3><p>Scanners hit random codes. Cache "not found" for about a minute, rate limit by IP, and consider a Bloom filter in front of the database.</p></article>
+    <article><h3>Abuse and malware</h3><p>Accept only http and https targets, refuse to shorten your own domain to avoid loops, and check destinations against a safe-browsing list when links are created.</p></article>
+    <article><h3>Deleting a link</h3><p>Delete the row, then delete the cache key, then purge any CDN copy. Serve 410 Gone afterwards so crawlers drop it.</p></article>
+    <article><h3>Guessable sequences</h3><p>Sequential IDs let anyone enumerate links and estimate your volume. Pass the ID through a reversible shuffle before base62 encoding.</p></article>
+  </div>
+</section>
+
+<section id="order">
+  <div class="sec-head">
+    <h2>A sensible build order</h2>
+    <p class="lead">Each step fixes the bottleneck the previous one exposes. Do not start at step 7.</p>
+  </div>
+  <ol class="build">
+    <li><div><b>One API server and one Postgres.</b> Auto-increment ID, base62 encode, 302 redirect.</div></li>
+    <li><div><b>Redis cache-aside</b> on the redirect path. This removes most database reads.</div></li>
+    <li><div><b>Nginx in front</b> with two or more API servers, health checks and rate limits.</div></li>
+    <li><div><b>Read replicas</b> for cache misses, keeping the primary for writes.</div></li>
+    <li><div><b>ID block leasing</b> so API servers stop depending on one database sequence.</div></li>
+    <li><div><b>Kafka click events</b> and an analytics store, so counting never slows a redirect.</div></li>
+    <li><div><b>Shard the urls table</b> by hash of the code once one primary cannot take the writes.</div></li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var NS='http://www.w3.org/2000/svg';
+var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+var clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
+function el(name,attrs,parent){
+  var e=document.createElementNS(NS,name);
+  for(var k in attrs){e.setAttribute(k,attrs[k])}
+  if(parent)parent.appendChild(e);
+  return e;
+}
+var ALPHA='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function b62(n){
+  if(n===0)return '0';
+  var s='';
+  while(n>0){s=ALPHA[n%62]+s;n=Math.floor(n/62)}
+  return s;
+}
+var fmt=function(n){return n.toLocaleString('en-US')};
+
+/* ---------- visibility tracking for autoplay ---------- */
+function watch(node,cb){
+  if(!('IntersectionObserver' in window)){cb(true);return}
+  new IntersectionObserver(function(es){cb(es[0].isIntersecting)},{threshold:0.15}).observe(node);
+}
+
+/* ---------- packet animation shared by both diagrams ---------- */
+async function fly(layer,pts,label,segMs,token,o){
+  o=o||{};
+  var g=el('g',{'class':'packet'},layer);
+  var c=el('circle',{r:7,'class':'dot'+(o.cls?' '+o.cls:'')},g);
+  var t=el('text',{'class':'plabel','text-anchor':'middle'},g);
+  t.textContent=label||'';
+  function place(x,y,dy){
+    c.setAttribute('cx',x);c.setAttribute('cy',y);
+    t.setAttribute('x',clamp(x,o.minX||80,o.maxX||740));
+    t.setAttribute('y',y+dy);
+  }
+  if(pts.length===1){
+    place(pts[0].x,pts[0].y,-44);
+    c.setAttribute('r',9);
+    await sleep(o.hold||1000);
+    g.remove();
+    return;
+  }
+  await new Promise(function(res){
+    var seg=0,start=null;
+    place(pts[0].x,pts[0].y,-16);
+    function frame(ts){
+      if(token.cancelled){res();return}
+      if(start===null)start=ts;
+      var p=(ts-start)/segMs;
+      if(p>=1){
+        seg++;
+        if(o.onSeg)o.onSeg(seg);
+        start=ts;p=0;
+        if(seg>=pts.length-1){res();return}
+      }
+      var a=pts[seg],b=pts[seg+1];
+      var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+      place(a.x+(b.x-a.x)*e,a.y+(b.y-a.y)*e,-16);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  });
+  g.remove();
+}
+
+/* =====================================================
+   1. MAIN ARCHITECTURE PLAYER
+   ===================================================== */
+var NW=132,NH=58;
+var N={
+  client:{x:80,y:250,t:'Client',s:'browser / app'},
+  proxy:{x:250,y:250,t:'Reverse proxy',s:'Nginx, TLS, limits'},
+  api:{x:440,y:250,t:'API servers',s:'stateless x N',stack:1},
+  idgen:{x:440,y:70,t:'ID service',s:'range lease'},
+  redis:{x:700,y:90,t:'Redis cache',s:'code → long URL'},
+  dbp:{x:700,y:250,t:'DB primary',s:'all writes'},
+  dbr:{x:700,y:410,t:'DB replicas',s:'reads on miss'},
+  kafka:{x:300,y:420,t:'Kafka',s:'click events'},
+  store:{x:500,y:420,t:'Analytics store',s:'ClickHouse'}
+};
+var EDGES=[
+  ['client','proxy'],['proxy','api'],['api','idgen'],['api','redis'],['api','dbp'],['api','dbr'],
+  ['api','kafka',1],['kafka','store',1],['dbp','dbr',1]
+];
+var key=function(a,b){return [a,b].sort().join('~')};
+var edgeEls={},nodeEls={},badgeEls={};
+
+function buildDiagram(){
+  var svg=$('#diagram');
+  svg.innerHTML='';
+  var gE=el('g',{},svg),gN=el('g',{},svg),gB=el('g',{},svg);
+  el('g',{id:'packets'},svg);
+  EDGES.forEach(function(e){
+    var A=N[e[0]],B=N[e[1]];
+    edgeEls[key(e[0],e[1])]=el('line',{x1:A.x,y1:A.y,x2:B.x,y2:B.y,'class':'edge'+(e[2]?' dash':'')},gE);
+  });
+  var rl=el('text',{x:N.dbp.x+10,y:336,'class':'svg-note'},gE);
+  rl.textContent='replication';
+  Object.keys(N).forEach(function(id){
+    var n=N[id];
+    var g=el('g',{'class':'node'},gN);
+    nodeEls[id]=g;
+    if(n.stack){
+      [8,4].forEach(function(o){
+        el('rect',{'class':'back',x:n.x-NW/2+o,y:n.y-NH/2-o,width:NW,height:NH,rx:6},g);
+      });
+    }
+    el('rect',{'class':'main',x:n.x-NW/2,y:n.y-NH/2,width:NW,height:NH,rx:6},g);
+    var t=el('text',{'class':'t',x:n.x,y:n.y-3,'text-anchor':'middle'},g);t.textContent=n.t;
+    var s=el('text',{'class':'s',x:n.x,y:n.y+15,'text-anchor':'middle'},g);s.textContent=n.s;
+    var b=el('g',{'class':'badge'},gB);
+    el('rect',{x:n.x+NW/2-46,y:n.y-NH/2-11,width:44,height:18,rx:3},b);
+    var bt=el('text',{x:n.x+NW/2-24,y:n.y-NH/2+2,'text-anchor':'middle'},b);
+    badgeEls[id]=b;
+  });
+}
+
+var DEMO_ID=125000000042,DEMO_CODE=b62(DEMO_ID);
+function S(path,label,title,text,extra){
+  var o={path:path,label:label,title:title,text:text};
+  if(extra)for(var k in extra)o[k]=extra[k];
+  return o;
+}
+var SCENES={
+  create:function(){return [
+    S(['client','proxy'],'POST /shorten','The client sends a long URL','The request carries the long URL and, optionally, a custom alias and an expiry date. It travels over HTTPS.'),
+    S(['proxy','api'],'route','The proxy checks and forwards','Nginx ends TLS, applies a per-IP token bucket, and picks a healthy API server by round robin.'),
+    S(['api','idgen','api'],'ID '+DEMO_ID,'Lease a block of IDs','Each API server leases 1,000 IDs at a time from the ID service (ZooKeeper or Redis INCRBY) and hands them out from memory. The ID service is touched once per 1,000 links.'),
+    S(['api'],'base62 → '+DEMO_CODE,'Encode the ID','Base62 turns the number into a 7-character code. There are 62⁷, about 3.5 trillion, codes, which lasts decades at 100 million new links a month.'),
+    S(['api','dbp'],'INSERT','Save the mapping','The row (code, long_url, user_id, created_at, expires_at) goes to the primary. Because code is the primary key, a taken custom alias fails with a unique error and the API answers 409.'),
+    S(['api','redis'],'SET + TTL','Warm the cache','The new mapping is written to Redis with a TTL, so the first click is already a cache hit. Replicas copy the row from the primary in the background.'),
+    S(['api','proxy','client'],'201 Created','Return the short URL','The client receives sho.rt/'+DEMO_CODE+'. The cost is dominated by one database write.')
+  ]},
+  redirect:function(mode){
+    var a=[
+      S(['client','proxy'],'GET /'+DEMO_CODE,'Someone clicks the short link','The browser sends a plain GET with the code in the path.'),
+      S(['proxy','api'],'route','The proxy forwards it','Same entry point as before. Redirects get a looser rate limit than link creation.'),
+      S(['api','redis'],'GET '+DEMO_CODE,'Ask the cache first','The API server does one Redis GET with the code as the key. This is the step that must be fast.')
+    ];
+    if(mode==='hit'){
+      a.push(S(['redis','api'],'HIT','Cache hit','Redis has the long URL, so the database is never touched. Most clicks should end up on this path.',{badge:['redis','HIT','hit']}));
+    }else{
+      a.push(S(['redis','api'],'MISS','Cache miss','Redis has no entry: the key expired, was evicted, or has not been requested yet.',{badge:['redis','MISS','miss']}));
+      a.push(S(['api','dbr'],'SELECT','Read from a replica','A primary key lookup on a read replica. The primary stays free for writes.'));
+      a.push(S(['dbr','api'],'long_url','The database answers','If the row is missing or expired, the API returns 404 here and can cache that result briefly.'));
+      a.push(S(['api','redis'],'SET + TTL','Refill the cache','The answer is stored so the next click is a hit. Concurrent misses for the same code should be collapsed into one database read.'));
+    }
+    a.push(S(['api','kafka'],'click event','Publish the click, do not wait','The server sends {code, time, user agent, referrer} to Kafka without awaiting the result. A slow analytics system must never slow a redirect.'));
+    a.push(S(['api','proxy','client'],'302 Location','Send the redirect','The response is a 302 with a Location header. The browser jumps to the long URL.'));
+    return a;
+  },
+  analytics:function(){return [
+    S(['api','kafka'],'click event','The API emits an event','Each redirect produces a small JSON event keyed by code, so one link’s clicks stay in order on one partition.'),
+    S(['kafka'],'buffer on disk','Kafka absorbs spikes','Events are stored on disk. If the analytics store is slow or down, they queue up and nothing is lost.'),
+    S(['kafka','store'],'batch','A consumer writes in batches','A consumer reads batches, adds country from the IP and device from the user agent, and bulk-inserts into a column store such as ClickHouse.'),
+    S(['store'],'rollups','Pre-aggregate for the dashboard','Per-minute counts by country, device and referrer are rolled up ahead of time, so the stats page never scans raw events.')
+  ]}
+};
+
+var P={scene:'create',mode:'hit',i:0,playing:!RM,running:false,token:{cancelled:false},visible:false};
+function stepsList(){return SCENES[P.scene](P.mode)}
+
+function renderSteps(){
+  var list=stepsList();
+  $('#steps').innerHTML=list.map(function(s,k){
+    return '<li><button type="button" data-i="'+k+'"><span class="num">'+(k+1)+'</span><span>'+s.title+'</span></button></li>';
+  }).join('');
+}
+function showStep(i){
+  var list=stepsList(),s=list[i];
+  $$('#steps button').forEach(function(b,k){b.classList.toggle('on',k===i)});
+  $('#sayCount').textContent='Step '+(i+1)+' of '+list.length;
+  $('#sayTitle').textContent=s.title;
+  $('#sayText').textContent=s.text;
+  if(i===0)Object.keys(badgeEls).forEach(function(k){badgeEls[k].classList.remove('show','hit','miss')});
+  Object.keys(edgeEls).forEach(function(k){edgeEls[k].classList.remove('on')});
+  Object.keys(nodeEls).forEach(function(k){nodeEls[k].classList.remove('on')});
+  nodeEls[s.path[0]].classList.add('on');
+  for(var k=0;k<s.path.length-1;k++){
+    var e=edgeEls[key(s.path[k],s.path[k+1])];
+    if(e)e.classList.add('on');
+  }
+  if(s.badge){
+    var b=badgeEls[s.badge[0]];
+    b.classList.remove('hit','miss');
+    b.classList.add('show',s.badge[2]);
+    b.querySelector('text').textContent=s.badge[1];
+  }
+}
+async function playStep(i,token){
+  showStep(i);
+  var s=stepsList()[i];
+  if(RM){
+    s.path.forEach(function(id){nodeEls[id].classList.add('on')});
+    return;
+  }
+  var pts=s.path.map(function(id){return {x:N[id].x,y:N[id].y}});
+  await fly($('#packets'),pts,s.label,650,token,{onSeg:function(k){nodeEls[s.path[k]].classList.add('on')}});
+}
+async function run(){
+  var token=P.token={cancelled:false};
+  P.running=true;
+  while(true){
+    await playStep(P.i,token);
+    if(token.cancelled)return;
+    if(!P.playing||!P.visible){P.running=false;return}
+    await sleep(RM?1800:900);
+    if(token.cancelled)return;
+    P.i=(P.i+1)%stepsList().length;
+    if(P.i===0){
+      await sleep(RM?0:900);
+      if(token.cancelled)return;
+    }
+  }
+}
+function go(i){
+  P.token.cancelled=true;
+  $('#packets').innerHTML='';
+  P.i=i;
+  run();
+}
+function setPlayLabel(){$('#btnPlay').textContent=P.playing?'Pause':'Play'}
+function setScene(scene){
+  P.scene=scene;
+  $$('#sceneTabs button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.scene===scene))});
+  $('#modeTabs').hidden=scene!=='redirect';
+  renderSteps();
+  P.token.cancelled=true;
+  $('#packets').innerHTML='';
+  P.i=0;
+  showStep(0);
+  if(P.visible)run();
+}
+
+buildDiagram();
+renderSteps();
+showStep(0);
+$('#sceneTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(b)setScene(b.dataset.scene);
+});
+$('#modeTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(!b)return;
+  P.mode=b.dataset.mode;
+  $$('#modeTabs button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+  setScene('redirect');
+});
+$('#steps').addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(b)go(+b.dataset.i);
+});
+$('#btnNext').addEventListener('click',function(){go((P.i+1)%stepsList().length)});
+$('#btnPrev').addEventListener('click',function(){var n=stepsList().length;go((P.i-1+n)%n)});
+$('#btnPlay').addEventListener('click',function(){
+  P.playing=!P.playing;
+  setPlayLabel();
+  if(P.playing&&!P.running){
+    P.i=(P.i+1)%stepsList().length;
+    run();
+  }
+});
+setPlayLabel();
+watch($('#flows .stage'),function(v){
+  P.visible=v;
+  if(v&&P.playing&&!P.running)run();
+});
+
+/* =====================================================
+   2. BASE62 DEMO
+   ===================================================== */
+var MAXID=3521614606207;
+function renderB62(n){
+  var rows=[],q=n;
+  do{
+    var r=q%62,nq=Math.floor(q/62);
+    rows.push({q:q,nq:nq,r:r,ch:ALPHA[r]});
+    q=nq;
+  }while(q>0);
+  $('#b62rows').innerHTML=rows.map(function(x,i){
+    return '<div class="row" style="--i:'+i+'"><span class="n">'+fmt(x.q)+'</span><span>= '+fmt(x.nq)+' × 62 + <b>'+x.r+'</b></span><span>→ <b class="ch">'+x.ch+'</b></span></div>';
+  }).join('');
+  var code=rows.map(function(x){return x.ch}).reverse().join('');
+  $('#b62code').innerHTML=code.split('').map(function(c,i){
+    return '<span style="--j:'+(i+rows.length)+'">'+c+'</span>';
+  }).join('');
+  $('#b62len').textContent=code.length;
+}
+function readB62(){
+  var v=Math.floor(Number($('#b62in').value));
+  if(!isFinite(v)||v<0)v=0;
+  return Math.min(v,MAXID);
+}
+$('#b62in').addEventListener('input',function(){renderB62(readB62())});
+$('#b62next').addEventListener('click',function(){
+  var v=Math.min(readB62()+1,MAXID);
+  $('#b62in').value=v;renderB62(v);
+});
+$('#b62rand').addEventListener('click',function(){
+  var v=Math.floor(Math.random()*MAXID);
+  $('#b62in').value=v;renderB62(v);
+});
+renderB62(DEMO_ID);
+
+/* =====================================================
+   3. LOAD BALANCER SIM
+   ===================================================== */
+var LBN={client:{x:70,y:150},lb:{x:290,y:150},s:[{x:560,y:55},{x:560,y:150},{x:560,y:245}]};
+var lbTok={cancelled:false};
+var LB={rr:0,sent:0,retry:0,drop:0,auto:!RM,visible:false,
+  srv:[{up:true,known:true,n:0},{up:true,known:true,n:0},{up:true,known:true,n:0}]};
+var lbSrvEls=[],lbCountEls=[],lbStateEls=[];
+function buildLB(){
+  var svg=$('#lbsvg');svg.innerHTML='';
+  var gE=el('g',{},svg),gN=el('g',{},svg);
+  el('g',{id:'lbpk'},svg);
+  el('line',{x1:LBN.client.x,y1:LBN.client.y,x2:LBN.lb.x,y2:LBN.lb.y,'class':'edge'},gE);
+  LBN.s.forEach(function(s){el('line',{x1:LBN.lb.x,y1:LBN.lb.y,x2:s.x,y2:s.y,'class':'edge'},gE)});
+  function box(x,y,w,h,t,s){
+    var g=el('g',{'class':'node'},gN);
+    el('rect',{'class':'main',x:x-w/2,y:y-h/2,width:w,height:h,rx:6},g);
+    var a=el('text',{'class':'t',x:x,y:y-3,'text-anchor':'middle'},g);a.textContent=t;
+    var b=el('text',{'class':'s',x:x,y:y+15,'text-anchor':'middle'},g);b.textContent=s;
+    return {g:g,b:b};
+  }
+  box(LBN.client.x,LBN.client.y,110,52,'Clients','many users');
+  box(LBN.lb.x,LBN.lb.y,140,52,'Nginx','round robin');
+  LBN.s.forEach(function(s,i){
+    var o=box(s.x,s.y,150,52,'api-'+(i+1),'healthy · served 0');
+    lbSrvEls[i]=o.g;lbStateEls[i]=o.b;
+  });
+}
+function lbRender(){
+  LB.srv.forEach(function(s,i){
+    lbSrvEls[i].classList.toggle('dead',!s.up);
+    lbStateEls[i].textContent=(s.up?'healthy':'stopped')+(s.up&&!s.known?'':'')+' · served '+s.n;
+  });
+  $('#lbSent').firstChild.nodeValue=String(LB.sent);
+  $('#lbRetry').firstChild.nodeValue=String(LB.retry);
+  $('#lbDrop').firstChild.nodeValue=String(LB.drop);
+  $$('#lbBtns [data-srv]').forEach(function(b){
+    var i=+b.dataset.srv,dead=!LB.srv[i].up;
+    b.setAttribute('aria-pressed',String(dead));
+    b.textContent=(dead?'Start':'Stop')+' api-'+(i+1);
+  });
+}
+var P2=function(o){return {x:o.x,y:o.y}};
+async function lbSend(){
+  LB.sent++;
+  var pool=LB.srv.map(function(s,i){return i}).filter(function(i){return LB.srv[i].known});
+  var layer=$('#lbpk');
+  var ox={minX:20,maxX:700};
+  if(!pool.length){
+    LB.drop++;lbRender();
+    await fly(layer,[P2(LBN.client),P2(LBN.lb)],'',RM?0:420,lbTok,{cls:'fail',minX:20,maxX:700});
+    return;
+  }
+  var t=pool[LB.rr++%pool.length];
+  var srv=LB.srv[t];
+  if(RM){
+    if(srv.up){srv.n++}else{retryOnce(t)}
+    lbRender();return;
+  }
+  await fly(layer,[P2(LBN.client),P2(LBN.lb),P2(LBN.s[t])],'',420,lbTok,{minX:20,maxX:700});
+  if(srv.up){srv.n++;lbRender();return}
+  lbSrvEls[t].classList.add('flash');
+  setTimeout(function(){lbSrvEls[t].classList.remove('flash')},500);
+  await retryOnce(t);
+  lbRender();
+}
+async function retryOnce(failed){
+  var alt=-1;
+  for(var k=1;k<=3;k++){
+    var c=(failed+k)%3;
+    if(c!==failed&&LB.srv[c].up){alt=c;break}
+  }
+  if(alt<0){LB.drop++;return}
+  LB.retry++;
+  if(!RM)await fly($('#lbpk'),[P2(LBN.lb),P2(LBN.s[alt])],'retry',420,lbTok,{minX:20,maxX:700});
+  LB.srv[alt].n++;
+}
+$('#lbSend').addEventListener('click',function(){lbSend()});
+$('#lbAuto').addEventListener('click',function(){
+  LB.auto=!LB.auto;
+  this.setAttribute('aria-pressed',String(LB.auto));
+  this.textContent='Auto traffic: '+(LB.auto?'on':'off');
+});
+$('#lbBtns').addEventListener('click',function(e){
+  var b=e.target.closest('[data-srv]');
+  if(!b)return;
+  var i=+b.dataset.srv,s=LB.srv[i];
+  s.up=!s.up;
+  var want=s.up;
+  setTimeout(function(){if(LB.srv[i].up===want){LB.srv[i].known=want;lbRender()}},want?900:1600);
+  lbRender();
+});
+buildLB();
+LB.srv.forEach(function(s,i){s.n=[41,40,39][i]});LB.sent=120;
+lbRender();
+$('#lbAuto').setAttribute('aria-pressed',String(LB.auto));
+$('#lbAuto').textContent='Auto traffic: '+(LB.auto?'on':'off');
+watch($('#lbsvg'),function(v){LB.visible=v});
+setInterval(function(){if(LB.auto&&LB.visible)lbSend()},800);
+
+/* =====================================================
+   4. CACHE SIM
+   ===================================================== */
+var CODES=['2crtgcW','aZ3k9Xq','Qm81vTe','x7PdL0b','Hn4sK2y','b9RwE5u','Tj6cA3z','p0Vf8Ig','Ld2oM7k','Yc5tN1r','e8GhB4w','Ku3zS9a'];
+var WGT=CODES.map(function(_,i){return 1/Math.pow(i+1,1.1)});
+var WSUM=WGT.reduce(function(a,b){return a+b},0);
+function pick(){
+  var r=Math.random()*WSUM;
+  for(var i=0;i<WGT.length;i++){r-=WGT[i];if(r<=0)return CODES[i]}
+  return CODES[0];
+}
+var C={cap:4,lru:[],hits:0,total:0,hist:[],auto:null,fresh:null,gone:null};
+function cReq(code){
+  var idx=C.lru.indexOf(code),hit=idx>=0;
+  C.gone=null;
+  if(hit){C.lru.splice(idx,1)}
+  else if(C.lru.length>=C.cap){C.gone=C.lru.pop()}
+  C.lru.unshift(code);
+  C.total++;if(hit)C.hits++;
+  C.hist.push(hit);if(C.hist.length>60)C.hist.shift();
+  C.fresh=code;
+  return hit;
+}
+function cRender(last){
+  var h='';
+  for(var i=0;i<C.cap;i++){
+    var c=C.lru[i];
+    h+='<div class="slot'+(c?' full':'')+(c&&c===C.fresh?' fresh':'')+'">'+(c||'empty')+'</div>';
+  }
+  $('#slots').innerHTML=h;
+  $('#ticks').innerHTML=C.hist.map(function(x){return '<i class="'+(x?'':'m')+'"></i>'}).join('');
+  var misses=C.total-C.hits;
+  var rate=C.total?Math.round(C.hits/C.total*100):0;
+  var lat=C.total?(C.hits*1+misses*15)/C.total:0;
+  $('#cHits').firstChild.nodeValue=rate+'%';
+  $('#cLat').firstChild.nodeValue=lat.toFixed(1)+' ms';
+  $('#cTotal').firstChild.nodeValue=fmt(C.total);
+  $('#cDb').firstChild.nodeValue=fmt(misses);
+  var v=$('#verdict');
+  if(last){
+    var msg='sho.rt/'+last.code+' → ';
+    v.innerHTML=msg+(last.hit?'<span class="hit-t">HIT, served from Redis</span>':'<span class="miss-t">MISS, read from database'+(C.gone?', evicted '+C.gone:'')+'</span>');
+  }else{
+    v.textContent='Send a click to start.';
+  }
+}
+function cSend(n){
+  var last=null;
+  for(var i=0;i<n;i++){var code=pick();last={code:code,hit:cReq(code)}}
+  cRender(last);
+}
+$('#cSend1').addEventListener('click',function(){cSend(1)});
+$('#cSend50').addEventListener('click',function(){cSend(50)});
+$('#cAuto').addEventListener('click',function(){
+  var b=this;
+  if(C.auto){clearInterval(C.auto);C.auto=null;b.setAttribute('aria-pressed','false');b.textContent='Auto: off'}
+  else{C.auto=setInterval(function(){cSend(1)},380);b.setAttribute('aria-pressed','true');b.textContent='Auto: on'}
+});
+$('#cReset').addEventListener('click',function(){
+  C.lru=[];C.hits=0;C.total=0;C.hist=[];C.fresh=null;C.gone=null;cRender(null);
+});
+$('#cCap').addEventListener('input',function(){
+  C.cap=+this.value;$('#cCapOut').textContent=C.cap;
+  while(C.lru.length>C.cap)C.lru.pop();
+  cRender(null);
+});
+cSend(60);
+
+/* =====================================================
+   5. SHARD SIM
+   ===================================================== */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function fnv(str){var h=0x811c9dc5;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,0x01000193)}return h>>>0}
+function mix(h){h^=h>>>16;h=Math.imul(h,0x85ebca6b);h^=h>>>13;h=Math.imul(h,0xc2b2ae35);h^=h>>>16;return h>>>0}
+function hash(s){return mix(fnv(s))}
+var rng=mulberry32(20261108);
+var KEYS=[];
+for(var ki=0;ki<3000;ki++){
+  var cs='';
+  for(var kj=0;kj<7;kj++)cs+=ALPHA[Math.floor(rng()*62)];
+  KEYS.push({c:cs,h:hash(cs)});
+}
+var ringMemo={};
+function ring(n){
+  if(ringMemo[n])return ringMemo[n];
+  var pts=[];
+  for(var s=0;s<n;s++)for(var v=0;v<128;v++)pts.push([hash('shard'+s+'#'+v),s]);
+  pts.sort(function(a,b){return a[0]-b[0]});
+  return ringMemo[n]=pts;
+}
+function ringLookup(r,h){
+  var lo=0,hi=r.length;
+  while(lo<hi){var m=(lo+hi)>>1;if(r[m][0]<h)lo=m+1;else hi=m}
+  return r[lo%r.length][1];
+}
+var SH={method:'ring'};
+function assign(h,n){return SH.method==='mod'?h%n:ringLookup(ring(n),h)}
+function renderShards(){
+  var n=+$('#nShards').value;
+  $('#nOut').textContent=n;
+  var counts=[];for(var i=0;i<n;i++)counts.push(0);
+  KEYS.forEach(function(k){counts[assign(k.h,n)]++});
+  var mx=Math.max.apply(null,counts);
+  $('#bars').innerHTML=counts.map(function(c){
+    return '<div><span>'+c+'</span><b style="height:'+Math.round(c/mx*125)+'px"></b></div>';
+  }).join('');
+  $('#barsL').innerHTML=counts.map(function(_,i){return '<span>shard '+i+'</span>'}).join('');
+  var mm=0,rm=0,r1=ring(n),r2=ring(n+1);
+  KEYS.forEach(function(k){
+    if(k.h%n!==k.h%(n+1))mm++;
+    if(ringLookup(r1,k.h)!==ringLookup(r2,k.h))rm++;
+  });
+  $('#moveMod').firstChild.nodeValue=Math.round(mm/KEYS.length*100)+'%';
+  $('#moveRing').firstChild.nodeValue=Math.round(rm/KEYS.length*100)+'%';
+  var code=$('#lookup').value.trim();
+  if(code){
+    var h=hash(code);
+    $('#lookOut').textContent='hash '+h.toString(16).padStart(8,'0')+' → mod: shard '+(h%n)+' · ring: shard '+ringLookup(ring(n),h);
+  }else{
+    $('#lookOut').textContent='Type a code to see its shard.';
+  }
+}
+$('#nShards').addEventListener('input',renderShards);
+$('#lookup').addEventListener('input',renderShards);
+$('#methodTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(!b)return;
+  SH.method=b.dataset.method;
+  $$('#methodTabs button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+  renderShards();
+});
+renderShards();
+
+/* =====================================================
+   6. CAPACITY CALCULATOR
+   ===================================================== */
+function fmtN(n){
+  function t(v,u){return v.toFixed(1).replace(/\.0$/,'')+u}
+  if(n>=1e9)return t(n/1e9,'B');
+  if(n>=1e6)return t(n/1e6,'M');
+  if(n>=1e3)return t(n/1e3,'K');
+  return String(Math.round(n));
+}
+function fmtB(b){
+  if(b>=1e12)return (b/1e12).toFixed(1)+' TB';
+  if(b>=1e9)return (b/1e9).toFixed(1)+' GB';
+  if(b>=1e6)return (b/1e6).toFixed(1)+' MB';
+  return Math.round(b)+' B';
+}
+function calc(){
+  var monthly=+$('#capNew').value,ratio=+$('#capRatio').value,bytes=+$('#capBytes').value,years=+$('#capYears').value;
+  $('#capRatioOut').textContent=ratio;$('#capBytesOut').textContent=bytes;
+  var w=monthly/(30*86400),r=w*ratio,day=r*86400;
+  $('#oW').firstChild.nodeValue=fmtN(w);
+  $('#oR').firstChild.nodeValue=fmtN(r);
+  $('#oP').firstChild.nodeValue=fmtN(r*5);
+  $('#oS').firstChild.nodeValue=fmtB(monthly*12*years*bytes);
+  $('#oD').firstChild.nodeValue=fmtN(day);
+  $('#oC').firstChild.nodeValue=fmtB(day*0.2*bytes);
+}
+['capNew','capRatio','capBytes','capYears'].forEach(function(id){$('#'+id).addEventListener('input',calc)});
+calc();
+})();
+</script>
+</body>
 </html>
