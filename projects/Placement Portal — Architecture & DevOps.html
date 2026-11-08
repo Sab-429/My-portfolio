@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Placement Portal — Architecture & DevOps | Sabyasachi Portfolio</title>
+    <style>
+      /* ===== PLACEMENT PORTAL — PAGE-SPECIFIC STYLES =====
+         The shared sheet (assets/css/styles.css) provides the page shell
+         (header, project container, footer). This block keeps the SVG
+         diagrams, animated workflows, pills, tables and custom components
+         working exactly as before. ===== */
+      :root {
+        --bg: #ffffff;
+        --card: #fff;
+        --tx: #161a2b;
+        --mu: #5b6275;
+        --bd: #dfe3ee;
+        --acc: #4f46e5;
+        --acc2: #0ea5e9;
+        --ok: #16a34a;
+        --warn: #d97706;
+        --bad: #dc2626;
+        --box: #eef0ff;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1220;
+          --card: #181c30;
+          --tx: #e8eaf6;
+          --mu: #9aa2bf;
+          --bd: #2a2f4a;
+          --acc: #818cf8;
+          --acc2: #38bdf8;
+          --box: #232849;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1220;
+        --card: #181c30;
+        --tx: #e8eaf6;
+        --mu: #9aa2bf;
+        --bd: #2a2f4a;
+        --acc: #818cf8;
+        --acc2: #38bdf8;
+        --box: #232849;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        background: var(--bg);
+        color: var(--tx);
+        font: 16px / 1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      .wrap {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 18px;
+      }
+      /* Single-column stack: architecture sits full-width below project data */
+      .project__container {
+        grid-template-columns: 1fr;
+        max-width: 1024px;
+        margin: 0 auto;
+        gap: 2rem;
+      }
+      .project__data h1 {
+        font-size: clamp(28px, 5vw, 46px);
+        margin: 0 0 10px;
+        background: linear-gradient(90deg, var(--acc), var(--acc2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 18px;
+      }
+      .pill {
+        border: 1px solid var(--bd);
+        background: var(--card);
+        border-radius: 99px;
+        padding: 4px 12px;
+        font-size: 13px;
+      }
+      .sec-nav {
+        background: var(--bg);
+        border-bottom: 1px solid var(--bd);
+      }
+      .sec-nav .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        padding: 8px 0;
+      }
+      .sec-nav a {
+        white-space: nowrap;
+        text-decoration: none;
+        color: var(--mu);
+        font-size: 14px;
+        padding: 4px 12px;
+        border-radius: 99px;
+      }
+      .sec-nav a:hover {
+        background: var(--box);
+        color: var(--tx);
+      }
+      h2 {
+        font-size: 26px;
+        margin: 0 0 6px;
+      }
+      h3 {
+        margin: 0 0 8px;
+        font-size: 17px;
+      }
+      .lead {
+        color: var(--mu);
+        margin: 0 0 18px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 14px;
+        padding: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+      }
+      .scroll {
+        overflow-x: auto;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+      svg text {
+        fill: var(--tx);
+        font: 600 13px system-ui, sans-serif;
+      }
+      svg .sub {
+        fill: var(--mu);
+        font-weight: 400;
+        font-size: 11px;
+      }
+      .bx {
+        fill: var(--box);
+        stroke: var(--acc);
+        stroke-width: 1.5;
+      }
+      .ln {
+        stroke: var(--bd);
+        stroke-width: 2;
+        fill: none;
+        stroke-dasharray: 5 5;
+        animation: dash 1.2s linear infinite;
+      }
+      @keyframes dash {
+        to {
+          stroke-dashoffset: -20;
+        }
+      }
+      .pk {
+        fill: var(--acc2);
+      }
+      .pk2 {
+        fill: var(--warn);
+      }
+      .pk3 {
+        fill: var(--ok);
+      }
+      .legend {
+        font-size: 13px;
+        color: var(--mu);
+        margin-top: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--bd);
+        vertical-align: top;
+      }
+      th {
+        color: var(--mu);
+        font-weight: 600;
+      }
+      code {
+        background: var(--box);
+        padding: 1px 6px;
+        border-radius: 5px;
+        font-size: 13px;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .tab {
+        border: 1px solid var(--bd);
+        background: var(--card);
+        color: var(--tx);
+        border-radius: 99px;
+        padding: 6px 14px;
+        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
+      }
+      .tab[aria-selected="true"] {
+        background: var(--acc);
+        color: #fff;
+        border-color: var(--acc);
+      }
+      .steps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        counter-reset: s;
+      }
+      .steps li {
+        counter-increment: s;
+        display: flex;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        opacity: 0.55;
+        transition: 0.4s;
+      }
+      .steps li::before {
+        content: counter(s);
+        flex: none;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--box);
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .steps li.on {
+        opacity: 1;
+        background: var(--box);
+        border-color: var(--acc);
+        transform: translateX(6px);
+      }
+      .steps li.on::before {
+        background: var(--acc);
+        color: #fff;
+      }
+      .bar {
+        height: 6px;
+        border-radius: 9px;
+        background: var(--bd);
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--acc), var(--acc2));
+      }
+      .pipe {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .st {
+        flex: 1 1 120px;
+        text-align: center;
+        padding: 12px 8px;
+        border-radius: 12px;
+        border: 1px solid var(--bd);
+        background: var(--card);
+        font-size: 13px;
+        animation: glow 6s infinite;
+      }
+      .st b {
+        display: block;
+        font-size: 20px;
+      }
+      .st:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .st:nth-child(3) {
+        animation-delay: 1s;
+      }
+      .st:nth-child(5) {
+        animation-delay: 2s;
+      }
+      .st:nth-child(7) {
+        animation-delay: 3s;
+      }
+      .st:nth-child(9) {
+        animation-delay: 4s;
+      }
+      .st:nth-child(11) {
+        animation-delay: 5s;
+      }
+      .ar {
+        color: var(--mu);
+      }
+      @keyframes glow {
+        0%,
+        14% {
+          border-color: var(--acc);
+          background: var(--box);
+          transform: translateY(-4px);
+        }
+        20%,
+        100% {
+          border-color: var(--bd);
+          background: var(--card);
+          transform: none;
+        }
+      }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        border-radius: 6px;
+        padding: 1px 8px;
+        color: #fff;
+      }
+      .H {
+        background: var(--bad);
+      }
+      .M {
+        background: var(--warn);
+      }
+      .L {
+        background: var(--ok);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+      /* Footer override: keep the page's light-themed footer while using the
+         standard footer markup shared by the other project pages. */
+      footer.footer {
+        background: var(--bg) !important;
+        color: var(--mu) !important;
+        border: none !important;
+        backdrop-filter: none !important;
+        border-top: 1px solid var(--bd) !important;
+      }
+      footer.footer .footer__copy {
+        color: var(--mu) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <nav class="nav bd-grid">
+        <div>
+          <a href="../index.html" class="nav__logo">Sabyasachi</a>
+        </div>
+        <a href="../index.html#work" class="nav__link">
+          <i class="bx bx-left-arrow-alt"></i> Back to Projects
+        </a>
+      </nav>
+    </header>
+
+    <main class="l-main">
+      <section class="project section" id="project">
+        <div class="project__container bd-grid">
+          <div class="project__data">
+            <a href="../index.html#work" class="back-link">
+              <i class="bx bx-left-arrow-alt"></i> Back to Projects
+            </a>
+            <h1 class="project__title">Placement Portal</h1>
+            <p class="project__description lead">
+              A full-stack placement &amp; job portal: React SPA, Go API, Python background worker,
+              PostgreSQL and Redis — shipped with Docker Compose and deployed to a local Kubernetes
+              (Kind) cluster.
+            </p>
+            <div class="pills">
+              <span class="pill">React 19</span>
+              <span class="pill">Go 1.25 + Gin</span>
+              <span class="pill">Python worker</span>
+              <span class="pill">PostgreSQL 16</span>
+              <span class="pill">Redis 7</span>
+              <span class="pill">Docker</span>
+              <span class="pill">Kubernetes (Kind)</span>
+            </div>
+            <div class="sec-nav">
+              <div class="wrap">
+                <a href="#arch">Architecture</a>
+                <a href="#stack">Tech stack</a>
+                <a href="#data">Data model</a>
+                <a href="#flows">Workflows</a>
+                <a href="#k8s">Kubernetes</a>
+                <a href="#ops">DevOps</a>
+                <a href="#gaps">Gaps &amp; roadmap</a>
+              </div>
+            </div>
+          </div>
+
+          <section id="arch">
+              <h2>1. High-level architecture</h2>
+              <p class="lead">Four services in a monorepo, orchestrated by Docker Compose. The browser only ever talks to Nginx; Nginx proxies <code>/api</code> and <code>/files</code> to the Go API.</p>
+              <div class="card scroll">
+              <svg viewBox="0 0 900 390" role="img" aria-label="Animated architecture diagram">
+              <path id="a1" class="ln" d="M130,180H170"/><path id="a2" class="ln" d="M290,180H340"/>
+              <path id="a3" class="ln" d="M460,180C520,180 520,78 600,78"/><path id="a4" class="ln" d="M460,180H600"/>
+              <path id="a5" class="ln" d="M460,180C520,180 520,338 600,338"/><path id="a6" class="ln" d="M720,180H760"/>
+              <path id="a7" class="ln" d="M820,208C820,300 780,338 720,338"/>
+              <g><rect class="bx" x="10" y="152" width="120" height="56" rx="10"/><text x="70" y="177" text-anchor="middle">Browser</text><text class="sub" x="70" y="194" text-anchor="middle">React SPA</text></g>
+              <g><rect class="bx" x="170" y="152" width="120" height="56" rx="10"/><text x="230" y="177" text-anchor="middle">Nginx</text><text class="sub" x="230" y="194" text-anchor="middle">:80 static + proxy</text></g>
+              <g><rect class="bx" x="340" y="152" width="120" height="56" rx="10"/><text x="400" y="177" text-anchor="middle">Go API (Gin)</text><text class="sub" x="400" y="194" text-anchor="middle">:8080 REST + JWT</text></g>
+              <g><rect class="bx" x="600" y="50" width="120" height="56" rx="10"/><text x="660" y="75" text-anchor="middle">PostgreSQL</text><text class="sub" x="660" y="92" text-anchor="middle">GORM · :5432</text></g>
+              <g><rect class="bx" x="600" y="152" width="120" height="56" rx="10"/><text x="660" y="177" text-anchor="middle">Redis</text><text class="sub" x="660" y="194" text-anchor="middle">tasks:worker queue</text></g>
+              <g><rect class="bx" x="600" y="310" width="120" height="56" rx="10"/><text x="660" y="335" text-anchor="middle">Storage</text><text class="sub" x="660" y="352" text-anchor="middle">pfps / resumes / logos</text></g>
+              <g><rect class="bx" x="760" y="152" width="120" height="56" rx="10"/><text x="820" y="177" text-anchor="middle">Python Worker</text><text class="sub" x="820" y="194" text-anchor="middle">BRPop · resume · email</text></g>
+              <text class="sub" x="40" y="30">public network: Nginx + API</text><text class="sub" x="560" y="30">internal network: Postgres, Redis, API, Worker</text>
+              <circle class="pk" r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M130,180H170 M170,180H290"/></circle>
+              <circle class="pk" r="5"><animateMotion dur="2.4s" begin=".6s" repeatCount="indefinite"><mpath href="#a2"/></animateMotion></circle>
+              <circle class="pk" r="5"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite"><mpath href="#a3"/></animateMotion></circle>
+              <circle class="pk2" r="5"><animateMotion dur="2.4s" begin=".3s" repeatCount="indefinite"><mpath href="#a4"/></animateMotion></circle>
+              <circle class="pk2" r="5"><animateMotion dur="2.4s" begin="1.5s" repeatCount="indefinite"><mpath href="#a6"/></animateMotion></circle>
+              <circle class="pk3" r="5"><animateMotion dur="3s" begin=".9s" repeatCount="indefinite"><mpath href="#a5"/></animateMotion></circle>
+              <circle class="pk3" r="5"><animateMotion dur="3s" begin="1.8s" repeatCount="indefinite"><mpath href="#a7"/></animateMotion></circle>
+              </svg>
+              <div class="legend"><span style="color:var(--acc2)">●</span> HTTP / SQL &nbsp; <span style="color:var(--warn)">●</span> queue tasks &nbsp; <span style="color:var(--ok)">●</span> file I/O. The API and worker mount the same <code>./backend/storage</code> volume, so worker-generated resumes are instantly downloadable.</div>
+              </div>
+            </section>
+
+          <div class="project__content">
+            <section id="stack">
+              <h2>2. Tech stack</h2>
+              <p class="lead">Each service has one clear job.</p>
+              <div class="grid">
+              <div class="card"><h3>🖥 Frontend</h3>React 19.2, Vite 8, React Router 7 (role-based <code>ProtectedRoute</code>), Tailwind 4, shadcn/ui, zustand (auth store), axios (Bearer token, 401 → /login), sonner, zod, next-themes. Served by Nginx.</div>
+              <div class="card"><h3>⚙️ Go API</h3>Go 1.25, Gin 1.12, GORM 1.31 with AutoMigrate, pgx/v5, go-redis/v9, JWT HS256 (72h), bcrypt cost 12, godotenv, JSONB via gorm datatypes.</div>
+              <div class="card"><h3>🐍 Worker</h3>Python + redis-py blocking on <code>BRPop tasks:worker</code>. Handlers: <code>generate_resume</code>, <code>send_email</code>, recruiter / student notifications via Resend.</div>
+              <div class="card"><h3>🗄 Data &amp; queue</h3>PostgreSQL 16-alpine and Redis 7-alpine with named volumes, healthchecks (<code>pg_isready</code>, <code>redis-cli ping</code>) and <code>service_healthy</code> startup ordering.</div>
+              </div>
+            </section>
+
+            <section id="data">
+              <h2>3. Data model</h2>
+              <p class="lead">All tables use GORM soft deletes.</p>
+              <div class="card scroll"><table>
+              <tr><th>Table</th><th>Key columns</th></tr>
+              <tr><td><b>students</b></td><td>email (unique), password_hash, branch, cgpa, passing_year, resume_ready, resume_source; JSONB: domains, work_experience, projects, education, certificates</td></tr>
+              <tr><td><b>recruiters</b></td><td>email (unique), domain, about, num_employees, logo_file_name</td></tr>
+              <tr><td><b>admins</b></td><td>email (unique), password_hash, role</td></tr>
+              <tr><td><b>listings</b></td><td>title, type (remote/on-site), job_type (internship/full-time), is_open, skills, vacancies, applications_num, salary_min/max, experience_years, expires_at, recruiter_id → recruiters</td></tr>
+              <tr><td><b>applications</b></td><td>student_id → students, listing_id → listings, status (applied → shortlisted → selected / rejected), applied_at</td></tr>
+              </table></div>
+            </section>
+
+            <section id="flows">
+              <h2>4. Request workflows</h2>
+              <p class="lead">Pick a flow — the steps play automatically.</p>
+              <div class="card">
+              <div class="tabs" role="tablist" id="tabs"></div>
+              <ol class="steps" id="steps"></ol>
+              <div class="bar"><i id="prog"></i></div>
+              </div>
+              <div class="card" style="margin-top:14px">
+              <h3>Async resume generation — queue in motion</h3>
+              <div class="scroll"><svg viewBox="0 0 900 150" role="img" aria-label="Queue animation">
+              <path id="q1" class="ln" d="M150,75H300"/><path id="q2" class="ln" d="M440,75H590"/><path id="q3" class="ln" d="M730,75H790"/>
+              <rect class="bx" x="20" y="47" width="130" height="56" rx="10"/><text x="85" y="72" text-anchor="middle">Go API</text><text class="sub" x="85" y="89" text-anchor="middle">LPush gen_resume</text>
+              <rect class="bx" x="300" y="47" width="140" height="56" rx="10"/><text x="370" y="72" text-anchor="middle">Redis list</text><text class="sub" x="370" y="89" text-anchor="middle">tasks:worker (FIFO)</text>
+              <rect class="bx" x="590" y="47" width="140" height="56" rx="10"/><text x="660" y="72" text-anchor="middle">Python worker</text><text class="sub" x="660" y="89" text-anchor="middle">BRPop, 5s timeout</text>
+              <rect class="bx" x="790" y="47" width="100" height="56" rx="10"/><text x="840" y="72" text-anchor="middle">PDF</text><text class="sub" x="840" y="89" text-anchor="middle">storage/resumes</text>
+              <g fill="var(--warn)"><rect width="14" height="14" rx="3" y="-7"><animateMotion dur="4s" repeatCount="indefinite" path="M150,75H300"/></rect>
+              <rect width="14" height="14" rx="3" y="-7"><animateMotion dur="4s" begin="1.3s" repeatCount="indefinite" path="M150,75H300"/></rect></g>
+              <g fill="var(--acc2)"><rect width="14" height="14" rx="3" y="-7"><animateMotion dur="4s" begin="2s" repeatCount="indefinite" path="M440,75H590"/></rect></g>
+              <g fill="var(--ok)"><circle r="6"><animateMotion dur="4s" begin="3s" repeatCount="indefinite" path="M730,75H790"/></circle></g>
+              </svg></div>
+              <div class="legend">The student gets an email (<code>notify_student_resume_ready</code>) and downloads via <code>/resume/download</code> with <code>Content-Disposition: attachment</code>.</div>
+              </div>
+            </section>
+
+            <section id="k8s">
+              <h2>5. Kubernetes deployment (Kind)</h2>
+              <p class="lead">Cluster <code>placement-cluster</code> — Kubernetes v1.35.1 (kindest/node), 1 control-plane (<code>ingress-ready=true</code>) + 1 worker. Host ports 80/443 map into the ingress.</p>
+              <div class="card scroll">
+              <svg viewBox="0 0 900 310" role="img" aria-label="Kubernetes traffic">
+              <path id="k1" class="ln" d="M120,155H190"/><path id="k2" class="ln" d="M310,155C350,155 350,70 400,70"/><path id="k3" class="ln" d="M310,155C350,155 350,250 400,250"/>
+              <path id="k4" class="ln" d="M520,70C570,70 570,40 620,40"/><path id="k5" class="ln" d="M520,70C570,70 570,130 620,130"/><path id="k6" class="ln" d="M520,70C570,70 570,220 620,220"/>
+              <path id="k7" class="ln" d="M740,130H780"/>
+              <rect class="bx" x="10" y="127" width="110" height="56" rx="10"/><text x="65" y="160" text-anchor="middle">User :80</text>
+              <rect class="bx" x="190" y="127" width="120" height="56" rx="10"/><text x="250" y="152" text-anchor="middle">NGINX Ingress</text><text class="sub" x="250" y="169" text-anchor="middle">/api /files /</text>
+              <rect class="bx" x="400" y="42" width="120" height="56" rx="10"/><text x="460" y="67" text-anchor="middle">api-service</text><text class="sub" x="460" y="84" text-anchor="middle">Go pod :8080</text>
+              <rect class="bx" x="400" y="222" width="120" height="56" rx="10"/><text x="460" y="247" text-anchor="middle">frontend-svc</text><text class="sub" x="460" y="264" text-anchor="middle">Nginx pod :80</text>
+              <rect class="bx" x="620" y="12" width="120" height="56" rx="10"/><text x="680" y="37" text-anchor="middle">Neon Postgres</text><text class="sub" x="680" y="54" text-anchor="middle">external, via Secret</text>
+              <rect class="bx" x="620" y="102" width="120" height="56" rx="10"/><text x="680" y="127" text-anchor="middle">Redis STS</text><text class="sub" x="680" y="144" text-anchor="middle">256Mi PVC</text>
+              <rect class="bx" x="620" y="192" width="120" height="56" rx="10"/><text x="680" y="217" text-anchor="middle">storage-pvc</text><text class="sub" x="680" y="234" text-anchor="middle">2Gi hostPath RWX</text>
+              <rect class="bx" x="780" y="102" width="110" height="56" rx="10"/><text x="835" y="127" text-anchor="middle">Worker</text><text class="sub" x="835" y="144" text-anchor="middle">1 replica</text>
+              <circle class="pk" r="5"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#k1"/></animateMotion></circle>
+              <circle class="pk" r="5"><animateMotion dur="2s" begin=".5s" repeatCount="indefinite"><mpath href="#k2"/></animateMotion></circle>
+              <circle class="pk2" r="5"><animateMotion dur="2s" begin="1s" repeatCount="indefinite"><mpath href="#k3"/></animateMotion></circle>
+              <circle class="pk" r="5"><animateMotion dur="2s" begin=".2s" repeatCount="indefinite"><mpath href="#k4"/></animateMotion></circle>
+              <circle class="pk2" r="5"><animateMotion dur="2s" begin=".9s" repeatCount="indefinite"><mpath href="#k5"/></animateMotion></circle>
+              <circle class="pk3" r="5"><animateMotion dur="2s" begin="1.4s" repeatCount="indefinite"><mpath href="#k6"/></animateMotion></circle>
+              <circle class="pk2" r="5"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#k7"/></animateMotion></circle>
+              </svg>
+              </div>
+              <div class="grid" style="margin-top:14px">
+              <div class="card"><h3>Manifests</h3>namespace · configmap (<code>GIN_MODE=release</code>) · secret · storage-pvc · postgres · redis · api · worker · frontend · ingress</div>
+              <div class="card"><h3>API pod</h3>Init <code>wait-for-redis</code>; startup/readiness/liveness probes on <code>/api/health</code> and <code>/api/health/ready</code>; 128Mi/100m requests, 256Mi/300m limits.</div>
+              <div class="card"><h3>Worker pod</h3>Inits <code>wait-for-redis</code> and <code>fix-storage-permissions</code> (chown 1000); <code>fsGroup: 1000</code>; 256Mi/100m requests, 512Mi/300m limits.</div>
+              <div class="card"><h3>Ingress</h3>Class nginx, regex paths, <code>proxy-body-size 20m</code>, <code>proxy-read-timeout 120s</code>.</div>
+              </div>
+            </section>
+
+            <section id="ops">
+              <h2>6. DevOps workflow (today)</h2>
+              <p class="lead">A manual but repeatable flow — each stage lights up in turn.</p>
+              <div class="card">
+              <div class="pipe">
+              <div class="st"><b>💻</b>Code &amp; commit</div><span class="ar">→</span>
+              <div class="st"><b>🐳</b>docker build</div><span class="ar">→</span>
+              <div class="st"><b>📦</b>push to Docker Hub</div><span class="ar">→</span>
+              <div class="st"><b>☸️</b>kubectl apply</div><span class="ar">→</span>
+              <div class="st"><b>🔄</b>rollout restart</div><span class="ar">→</span>
+              <div class="st"><b>🌐</b>localhost via Ingress</div>
+              </div>
+              <p class="legend">Images: <code>zorochuro1234/placement-backend:localv2</code>, <code>placement-worker:localv1</code>, <code>placement-frontend:localv2</code>. <code>imagePullPolicy: Always</code> lets a rollout restart pull the new image.</p>
+              </div>
+              <div class="grid" style="margin-top:14px">
+              <div class="card"><h3>1 · Provision</h3><code>./install.sh</code> (Docker, Kind v0.29.0, kubectl) then <code>kind create cluster --config kind-config.yaml --name placement-cluster</code>.</div>
+              <div class="card"><h3>2 · Ingress</h3>Apply the ingress-nginx Kind provider manifest so port 80/443 reach the cluster.</div>
+              <div class="card"><h3>3 · Deploy in order</h3>namespace → storage → configmap → secret → postgres → redis → api → worker → frontend → ingress.</div>
+              <div class="card"><h3>4 · Monitor</h3>Kubernetes Dashboard via a cluster-admin ServiceAccount. No Prometheus, Grafana or Loki yet.</div>
+              </div>
+            </section>
+
+            <section id="gaps">
+              <h2>7. Gaps &amp; target pipeline</h2>
+              <div class="card scroll"><table>
+              <tr><th>Area</th><th>Current</th><th>Risk</th></tr>
+              <tr><td>Secrets</td><td>Plaintext in secret.yaml, committed to repo — rotate and move to Sealed Secrets / Vault</td><td><span class="tag H">High</span></td></tr>
+              <tr><td>CI/CD</td><td>Manual kubectl apply, no tests</td><td><span class="tag H">High</span></td></tr>
+              <tr><td>High availability</td><td>1 replica everywhere</td><td><span class="tag H">High</span></td></tr>
+              <tr><td>Storage</td><td>Single-node hostPath with RWX claim</td><td><span class="tag H">High</span></td></tr>
+              <tr><td>RBAC / NetworkPolicy / TLS / HPA</td><td>None configured</td><td><span class="tag M">Medium</span></td></tr>
+              <tr><td>Image tags</td><td>Mutable <code>localv1</code>/<code>localv2</code></td><td><span class="tag M">Medium</span></td></tr>
+              <tr><td>Local Postgres manifest</td><td>Unused; app points at Neon</td><td><span class="tag L">Low</span></td></tr>
+              </table></div>
+              <div class="card" style="margin-top:14px"><h3>Target pipeline</h3>
+              <div class="pipe">
+              <div class="st"><b>🔀</b>Git push</div><span class="ar">→</span>
+              <div class="st"><b>🧪</b>Lint &amp; tests</div><span class="ar">→</span>
+              <div class="st"><b>🏗</b>Buildx image</div><span class="ar">→</span>
+              <div class="st"><b>🏷</b>Tag git-sha</div><span class="ar">→</span>
+              <div class="st"><b>🚀</b>ArgoCD / Flux</div><span class="ar">→</span>
+              <div class="st"><b>✅</b>Rolling update + probes</div>
+              </div></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__container">
+        <p class="footer__copy">Placement Portal · architecture &amp; DevOps overview</p>
+      </div>
+    </footer>
+
+    <script>
+    const F={
+    "Authentication":["POST /api/auth/{student,recruiter,admin}/login — Go validates the bcrypt hash","Returns an HS256 JWT (user_id, role, 72h expiry)","Frontend stores the token; axios sends Authorization: Bearer on every request","Gin Auth(role) middleware verifies the token and enforces role-based access","TokenExpiryWatcher warns 5 minutes before expiry and auto-logs out"],
+    "Browse & Apply":["GET /api/listings — public, open listings only, with filters (job_type, type, salary_min, experience, order)","POST /api/student/listings/:id/apply — checks duplicates and that the listing is open","Creates the Application and increments applications_num","Enqueues notify_recruiter_new_application on Redis","Recruiter updates status via PUT /api/recruiter/applications/:id/status; student gets an email"],
+    "Resume generation":["POST /resume/generate — sets resume_ready=false, resume_source=generating","API pushes {task: gen_resume, user_id} to Redis","Python worker BRPops the task and writes a PDF to storage/resumes/","Worker updates the DB and enqueues notify_student_resume_ready","GET /resume/download serves the PDF from the shared volume"],
+    "File uploads":["POST /students/:id/pfp, /students/:id/resume, /recruiters/:id/logo","API saves to STORAGE_PATH/{pfps,resumes,logos}","Filename column updated in PostgreSQL","Nginx and Ingress proxy /files to the API for serving"]};
+    const tabs=document.getElementById('tabs'),ol=document.getElementById('steps'),prog=document.getElementById('prog');
+    let cur,i=0,t;
+    function show(k){cur=k;i=0;[...tabs.children].forEach(b=>b.setAttribute('aria-selected',b.textContent===k));
+    ol.innerHTML=F[k].map(s=>'<li>'+s.replace(/</g,'&lt;')+'</li>').join('');tick();}
+    function tick(){const L=[...ol.children];L.forEach((l,j)=>l.classList.toggle('on',j===i));prog.style.width=((i+1)/L.length*100)+'%';}
+    Object.keys(F).forEach(k=>{const b=document.createElement('button');b.className='tab';b.role='tab';b.textContent=k;b.onclick=()=>show(k);tabs.appendChild(b);});
+    setInterval(()=>{i=(i+1)%F[cur].length;tick();},2200);
+    show('Authentication');
+    </script>
+  </body>
+</html>

@@ -1,126 +1,257 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anonymous-message | Sabyasachi Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/styles.css" />
-    <!-- =====BOX ICONS===== -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="l-header">
-      <nav class="nav bd-grid">
-        <div>
-          <a href="../index.html" class="nav__logo">Sabyasachi</a>
-        </div>
-        <a href="../index.html#work" class="nav__link">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>anonymousms – Architecture & DevOps | Sabyasachi Portfolio</title>
+<link rel="stylesheet" href="../assets/css/styles.css" />
+<!-- =====BOX ICONS===== -->
+<link
+  href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+  rel="stylesheet"
+/>
+<style>
+:root{--bg:#ffffff;--card:#fff;--ink:#14172b;--mut:#5b6178;--line:#d3d7e8;--a:#5b5bf0;--b:#14b8a6;--c:#f59e0b;--d:#ec4899;--code:#eef0fa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1020;--card:#171a30;--ink:#eceefb;--mut:#9aa0c0;--line:#343960;--code:#20244a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1020;--card:#171a30;--ink:#eceefb;--mut:#9aa0c0;--line:#343960;--code:#20244a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html, body { max-width: 100%; overflow-x: hidden; }
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1{font-size:2rem;line-height:1.2;margin:0 0 .2em;background:linear-gradient(90deg,var(--a),var(--d));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:1.35rem;margin:2.2em 0 .5em;display:flex;gap:.5em;align-items:center}
+h2 span{background:var(--a);color:#fff;border-radius:8px;padding:0 .5em;font-size:.9rem}
+h3{margin:1.6em 0 .3em;font-size:1.05rem}
+p{margin:.4em 0;color:var(--mut)}
+code{background:var(--code);padding:.1em .35em;border-radius:5px;font-size:.88em;word-break:break-word}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:10px 0}
+svg{display:block;width:100%;height:auto;max-width:100%}
+.grid{display:grid;grid-template-columns:1fr;gap:8px}
+.chip{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+.chip b{min-width:92px;color:var(--a)}
+.chip em{font-style:normal;color:var(--mut);font-size:.92rem}
+pre{background:var(--code);border-radius:12px;padding:12px 14px;margin:10px 0;white-space:pre-wrap;word-break:break-word;font-size:.82rem;line-height:1.5}
+table{width:100%;border-collapse:collapse;font-size:.9rem;table-layout:fixed}
+td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top;word-break:break-word}
+th{color:var(--a)}
+/* svg classes */
+.bx{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.ct{fill:none;stroke:var(--a);stroke-width:1.5;stroke-dasharray:5 4}
+.hd{fill:var(--a)}
+.ac{fill:var(--a)}
+.tx{fill:var(--ink);font-family:system-ui,sans-serif}
+.sb{fill:var(--mut);font-family:system-ui,sans-serif}
+.wh{fill:#fff;font-family:system-ui,sans-serif}
+.ln{stroke:var(--mut);stroke-width:1.4;fill:none}
+.rt{stroke-dasharray:4 3}
+.lf{stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+.mk{fill:var(--mut)}
+.dt{fill:var(--b)}
+.pk{fill:var(--c)}
+.dash{stroke-dasharray:5 5;animation:ds 1s linear infinite}
+@keyframes ds{to{stroke-dashoffset:-10}}
+.hl{animation:hl 6s infinite}
+@keyframes hl{0%,22%,100%{stroke:var(--line)}8%{stroke:var(--c);stroke-width:2.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+/* Single-column stack under project data (placement-portal shell) */
+.project__container { grid-template-columns: 1fr; max-width: 1024px; margin: 0 auto; gap: 2rem; }
+/* Architecture diagram: zoom out + light blue box fills */
+.arch-wrap { max-width: 640px; margin: 0 auto; }
+.arch-wrap .bx { fill: #eef4ff; }
+.diag-wrap { max-width: 640px; margin: 0 auto; }
+.diag-wrap .bx { fill: #eef4ff; }
+footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:40px}
+</style>
+</head>
+<body>
+<header class="l-header">
+  <nav class="nav bd-grid">
+    <div>
+      <a href="../index.html" class="nav__logo">Sabyasachi</a>
+    </div>
+    <a href="../index.html#work" class="nav__link">
+      <i class="bx bx-left-arrow-alt"></i> Back to Projects
+    </a>
+  </nav>
+</header>
+
+<main class="l-main">
+  <section class="project section" id="project">
+    <div class="project__container bd-grid">
+      <div class="project__data">
+        <a href="../index.html#work" class="back-link">
           <i class="bx bx-left-arrow-alt"></i> Back to Projects
         </a>
-      </nav>
-    </header>
-
-    <main class="l-main">
-      <section class="project section" id="project">
-        <div class="project__container bd-grid">
-          <div class="project__data">
-            <a href="../index.html#work" class="back-link">
-              <i class="bx bx-left-arrow-alt"></i> Back to Projects
-            </a>
-            <h1 class="project__title">Anonymous-message application</h1>
-            <p class="project__description">
-              Anonymous-message from any person to the user via a URL using
-              advanced dev tools. A secure, deployable anonymous messaging
-              platform.
-            </p>
-            <div class="project__tech">
-              <span>AWS</span>
-              <span>Next.js</span>
-              <span>MongoDB</span>
-              <span>Cloudflare</span>
-              <span>Docker</span>
-              <span>Nginx</span>
-            </div>
-            <div class="project__links">
-              <a
-                href="https://github.com/Sab-429/RAG"
-                target="_blank"
-                class="work__button work__repo"
-              >
-                <i class="bx bxl-github"></i> View Code
-              </a>
-              <a
-                href="https://anonymous.sabyasachisaha.in"
-                target="_blank"
-                class="work__button work__repo"
-              >
-                <i class="bx bx-link-external"></i> Live Deploy
-              </a>
-            </div>
-          </div>
-
-          <div class="project__content">
-            <div class="workflows">
-              <h3><i class="bx bx-task"></i> Workflows</h3>
-              <div class="workflow-step">
-                <strong>1. Message creation</strong><br />
-                A visitor opens a shareable URL, types an anonymous message, and
-                submits it. Next.js handles the frontend form and sends the
-                payload to the backend API route.
-              </div>
-              <div class="workflow-step">
-                <strong>2. Backend processing</strong><br />
-                The Next.js API route validates the input and forwards it to the
-                Express layer, which writes the message document to MongoDB
-                Atlas with a unique link identifier and timestamps.
-              </div>
-              <div class="workflow-step">
-                <strong>3. Delivery &amp; retrieval</strong><br />
-                The recipient opens the anonymous link. The server resolves the
-                unique ID, fetches the message from MongoDB Atlas, and renders
-                it. JWT-based authentication (Next-auth) protects admin routes.
-              </div>
-              <div class="workflow-step">
-                <strong>4. Deployment pipeline</strong><br />
-                The app is containerized with Docker &amp; Docker Compose and
-                deployed on AWS EC2 (Ubuntu 24.04 t3.micro). Nginx acts as a
-                reverse proxy (3000 → 80, 443), HTTPS is enabled via Let's
-                Encrypt (Certbot), and Cloudflare handles DNS + proxy.
-              </div>
-            </div>
-
-            <div class="architectures">
-              <h3><i class="bx bx-planet"></i> Architectures</h3>
-              <div class="architecture-item">
-                <strong>Client → Edge:</strong><br />
-                Browser ↔ Cloudflare DNS + Proxy (DDoS protection, caching,
-                SSL termination at the edge).
-              </div>
-              <div class="architecture-item">
-                <strong>Edge → Origin:</strong><br />
-                Cloudflare forwards traffic to Nginx reverse proxy on AWS EC2,
-                which terminates HTTPS and forwards to the Next.js app on port
-                3000.
-              </div>
-              <div class="architecture-item">
-                <strong>Origin → Data:</strong><br />
-                Next.js/Express app communicates with MongoDB Atlas over an
-                IP-restricted connection for secure read/write of messages.
-              </div>
-            </div>
-          </div>
+        <h1>anonymousms</h1>
+        <p>Anonymous feedback platform: register, verify email, share <code>/u/&lt;username&gt;</code>, receive anonymous messages on a protected dashboard. One Next.js monolith in one Docker container.</p>
+        <div class="grid">
+          <div class="chip"><b>Framework</b><em>Next.js 16.1.1 (App Router), React 19, TypeScript</em></div>
+          <div class="chip"><b>Auth</b><em>NextAuth.js v4, Credentials, JWT sessions</em></div>
+          <div class="chip"><b>Database</b><em>MongoDB Atlas + Mongoose</em></div>
+          <div class="chip"><b>Email</b><em>Resend + React Email templates</em></div>
+          <div class="chip"><b>UI</b><em>Tailwind v4, shadcn/ui, framer-motion, sonner</em></div>
+          <div class="chip"><b>Forms</b><em>React Hook Form + Zod, Axios</em></div>
+          <div class="chip"><b>DevOps</b><em>Docker, Compose, AWS EC2, Nginx, Cloudflare, Certbot</em></div>
         </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="footer__container">
-        <h3 class="footer__title">Sabyasachi</h3>
-        <p class="footer__copy">© 2026 Sabyasachi. All rights reserved.</p>
       </div>
-    </footer>
-  </body>
+
+      <div class="project__content">
+        <h2><span>2</span> High-level architecture</h2>
+        <div class="card">
+        <div class="arch-wrap">
+        <svg viewBox="0 0 360 500" role="img" aria-label="High level architecture diagram">
+        <defs><marker id="ma" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" class="mk"/></marker></defs>
+        <rect x="10" y="6" width="150" height="34" rx="10" class="bx"/><text x="85" y="27" text-anchor="middle" font-size="11" class="tx">🧑 Visitor (sender)</text>
+        <rect x="200" y="6" width="150" height="34" rx="10" class="bx"/><text x="275" y="27" text-anchor="middle" font-size="11" class="tx">👤 Owner (recipient)</text>
+        <line x1="85" y1="40" x2="85" y2="66" class="ln dash" marker-end="url(#ma)"/><line x1="275" y1="40" x2="275" y2="66" class="ln dash" marker-end="url(#ma)"/>
+        <rect x="10" y="66" width="340" height="34" rx="10" class="bx"/><text x="180" y="87" text-anchor="middle" font-size="11" class="tx">🌐 Browser · React client components</text>
+        <line x1="180" y1="100" x2="180" y2="126" class="ln dash" marker-end="url(#ma)"/>
+        <rect x="10" y="126" width="340" height="34" rx="10" class="bx"/><text x="180" y="147" text-anchor="middle" font-size="11" class="tx">☁️ Cloudflare DNS → Nginx (SSL :443)</text>
+        <line x1="180" y1="160" x2="180" y2="186" class="ln dash" marker-end="url(#ma)"/>
+        <rect x="10" y="186" width="340" height="192" rx="14" class="ct"/><text x="180" y="204" text-anchor="middle" font-size="11" font-weight="700" class="tx">🐳 Docker · Next.js 16 standalone :3000</text>
+        <g font-size="10.5" font-weight="700">
+        <rect x="20" y="214" width="152" height="56" rx="9" class="bx"/><text x="30" y="236" class="tx">App Router pages</text><text x="30" y="253" font-size="8" font-weight="400" class="sb">/ · sign-in · u/[user] · dashboard</text>
+        <rect x="188" y="214" width="152" height="56" rx="9" class="bx"/><text x="198" y="236" class="tx">Middleware + NextAuth</text><text x="198" y="253" font-size="8" font-weight="400" class="sb">JWT · route guards</text>
+        <rect x="20" y="294" width="152" height="56" rx="9" class="bx"/><text x="30" y="316" class="tx">API route handlers</text><text x="30" y="333" font-size="8" font-weight="400" class="sb">10 REST endpoints</text>
+        <rect x="188" y="294" width="152" height="56" rx="9" class="bx"/><text x="198" y="316" class="tx">Services</text><text x="198" y="333" font-size="8" font-weight="400" class="sb">rateLimit · mail · suggestions</text></g>
+        <line x1="172" y1="242" x2="188" y2="242" class="ln" marker-end="url(#ma)"/>
+        <line x1="96" y1="270" x2="96" y2="294" class="ln dash" marker-end="url(#ma)"/>
+        <line x1="264" y1="270" x2="264" y2="294" class="ln dash" marker-end="url(#ma)"/>
+        <line x1="172" y1="322" x2="188" y2="322" class="ln" marker-end="url(#ma)"/>
+        <line x1="96" y1="378" x2="96" y2="406" class="ln dash" marker-end="url(#ma)"/><line x1="264" y1="378" x2="264" y2="406" class="ln dash" marker-end="url(#ma)"/>
+        <rect x="10" y="406" width="170" height="42" rx="10" class="bx"/><text x="20" y="425" font-size="11" font-weight="700" class="tx">🍃 MongoDB Atlas</text><text x="20" y="440" font-size="8.5" class="sb">users · ratelimits</text>
+        <rect x="190" y="406" width="160" height="42" rx="10" class="bx"/><text x="200" y="425" font-size="11" font-weight="700" class="tx">✉️ Resend API</text><text x="200" y="440" font-size="8.5" class="sb">OTP verification email</text>
+        <line x1="270" y1="448" x2="270" y2="474" class="ln rt dash" marker-end="url(#ma)"/><text x="278" y="466" font-size="8.5" class="sb">code to inbox</text>
+        <g class="dt"><circle r="3.5" cx="85" cy="40"><animate attributeName="cy" values="40;66;100;126;160;186" dur="4s" repeatCount="indefinite"/><animate attributeName="cx" values="85;85;180;180;180;96" dur="4s" repeatCount="indefinite"/></circle>
+        <circle r="3.5" cx="96" cy="270"><animate attributeName="cy" values="270;294;378;406" dur="2.4s" repeatCount="indefinite"/></circle></g>
+        </svg>
+        </div>
+        </div>
+
+        <h3>Layered request path</h3>
+        <div class="card"><div class="diag-wrap"><div id="layers"></div></div></div>
+
+        <h2><span>3</span> Data model</h2>
+        <div class="card"><div class="diag-wrap">
+        <svg viewBox="0 0 360 340" role="img" aria-label="Data model diagram">
+        <defs><marker id="mb" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" class="mk"/></marker></defs>
+        <rect x="10" y="6" width="220" height="196" rx="10" class="bx"/><path d="M10 16a10 10 0 0 1 10-10h200a10 10 0 0 1 10 10v10H10z" class="hd"/><text x="20" y="21" font-size="11" font-weight="700" class="wh">users</text>
+        <g font-size="9.5" class="tx"><text x="20" y="44">username <tspan class="sb">String · unique</tspan></text><text x="20" y="60">email <tspan class="sb">String · unique</tspan></text><text x="20" y="76">password <tspan class="sb">bcrypt hash</tspan></text><text x="20" y="92">verifyCode <tspan class="sb">6-digit OTP</tspan></text><text x="20" y="108">verifyCodeExpiry <tspan class="sb">now + 1h</tspan></text><text x="20" y="124">isverified <tspan class="sb">default false</tspan></text><text x="20" y="140">isAcceptingMessages <tspan class="sb">default true</tspan></text><text x="20" y="156">messageCount <tspan class="sb">default 0</tspan></text><text x="20" y="172">messages[] <tspan class="sb">embedded →</tspan></text></g>
+        <line x1="230" y1="100" x2="252" y2="100" class="ln dash" marker-end="url(#mb)"/>
+        <rect x="252" y="62" width="98" height="80" rx="10" class="bx"/><path d="M252 72a10 10 0 0 1 10-10h78a10 10 0 0 1 10 10v8H252z" class="hd"/><text x="262" y="77" font-size="10" font-weight="700" class="wh">Message</text>
+        <g font-size="9.5" class="tx"><text x="262" y="98">content</text><text x="262" y="114">createdAt</text><text x="262" y="130">_id</text></g>
+        <rect x="10" y="226" width="220" height="86" rx="10" class="bx"/><path d="M10 236a10 10 0 0 1 10-10h200a10 10 0 0 1 10 10v10H10z" class="hd"/><text x="20" y="241" font-size="11" font-weight="700" class="wh">ratelimits</text>
+        <g font-size="9.5" class="tx"><text x="20" y="264">email <tspan class="sb">String · unique (sender)</tspan></text><text x="20" y="280">count <tspan class="sb">default 1</tspan></text><text x="20" y="296">createdAt · updatedAt</text></g>
+        <text x="245" y="262" font-size="8.5" class="sb">Sender email is used</text><text x="245" y="274" font-size="8.5" class="sb">only here; never</text><text x="245" y="286" font-size="8.5" class="sb">stored on a message.</text>
+        <circle r="3.5" class="dt" cx="230" cy="100"><animate attributeName="cx" values="230;252" dur="1.2s" repeatCount="indefinite"/></circle>
+        </svg>
+        </div></div>
+
+        <h2><span>4</span> API endpoints</h2>
+        <div class="card" style="padding:10px 14px">
+        <table><tr><th style="width:27%">Method</th><th>Endpoint · purpose</th></tr>
+        <tr><td>POST</td><td><code>/api/sign-up</code> create user, send OTP</td></tr>
+        <tr><td>POST</td><td><code>/api/verify-code</code> validate OTP</td></tr>
+        <tr><td>GET/POST</td><td><code>/api/auth/[...nextauth]</code> login, JWT</td></tr>
+        <tr><td>POST</td><td><code>/api/send-message</code> anonymous send (rate-limited)</td></tr>
+        <tr><td>GET 🔒</td><td><code>/api/get-messages</code></td></tr>
+        <tr><td>GET/POST 🔒</td><td><code>/api/acceptmessage</code> toggle accepting</td></tr>
+        <tr><td>DELETE 🔒</td><td><code>/api/delete-message/[id]</code></td></tr>
+        <tr><td>GET</td><td><code>/api/public-profile</code> accepting status</td></tr>
+        <tr><td>GET</td><td><code>/api/suggest-message</code> 4 random ideas</td></tr>
+        <tr><td>GET</td><td><code>/api/check-username-unique</code></td></tr></table>
+        <p>🔒 = requires a NextAuth session</p></div>
+
+        <h2><span>5</span> Authentication flow</h2>
+        <div class="card"><div class="diag-wrap"><div id="auth"></div></div></div>
+
+        <h2><span>6</span> Workflows</h2>
+        <p>Each diagram is a sequence: solid arrows are requests, dashed arrows are responses, and the glowing dot replays the order.</p>
+        <h3>A · Registration and email verification</h3><div class="card"><div class="diag-wrap"><div id="wa"></div></div></div>
+        <h3>B · Login</h3><div class="card"><div class="diag-wrap"><div id="wb"></div></div></div>
+        <h3>C · Dashboard and public profile setup</h3><div class="card"><div class="diag-wrap"><div id="wc"></div></div></div>
+        <h3>D · Sending an anonymous message</h3><div class="card"><div class="diag-wrap"><div id="wd"></div></div></div>
+        <h3>E · Receiving and managing messages</h3><div class="card"><div class="diag-wrap"><div id="we"></div></div></div>
+        <h3>F · Message suggestions</h3><div class="card"><div class="diag-wrap"><div id="wf"></div></div></div>
+
+        <h2><span>7</span> DevOps</h2>
+        <h3>Production request path</h3><div class="card"><div class="diag-wrap"><div id="d1"></div></div></div>
+        <h3>Docker multi-stage build</h3><div class="card"><div class="diag-wrap"><div id="d2"></div></div></div>
+        <p>Compose runs one service <code>web</code> on host port 3000 with <code>restart: unless-stopped</code> and <code>env_file: .env</code>. Atlas allows only <code>EC2_PUBLIC_IP/32</code>.</p>
+        <h3>Deploy and operate</h3><div class="card"><div class="diag-wrap"><div id="d3"></div></div></div>
+        <pre># deploy / update
+git pull
+docker compose up -d --build
+
+# inspect
+docker compose ps
+docker compose logs -f web
+
+# nginx + ssl
+sudo nginx -t &amp;&amp; sudo systemctl reload nginx
+sudo certbot renew --dry-run</pre>
+
+        <h2><span>8</span> Security design</h2>
+        <div class="card" style="padding:10px 14px">
+        <table><tr><th style="width:30%">Aspect</th><th>Implementation</th></tr>
+        <tr><td>Passwords</td><td>bcrypt, salt 10</td></tr>
+        <tr><td>Sessions</td><td>NextAuth JWT, signed cookie</td></tr>
+        <tr><td>Route protection</td><td>Middleware plus <code>getServerSession</code></td></tr>
+        <tr><td>Rate limiting</td><td>RateLimit collection per sender email</td></tr>
+        <tr><td>Anonymity</td><td>Sender email never stored on a message</td></tr>
+        <tr><td>Email verification</td><td>6-digit OTP, 1 hour; login blocked until verified</td></tr>
+        <tr><td>CORS</td><td>Same-origin calls, not configured</td></tr></table></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__container">
+    <p class="footer__copy">anonymousms · Next.js · MongoDB · Docker · AWS EC2</p>
+  </div>
+</footer>
+
+<script>
+var uid=0;
+function seq(id,A,S){
+var W=360,g=W/A.length,x=A.map(function(_,i){return g*i+g/2}),t=40,r=32,H=t+S.length*r+8,T=S.length+2,m="s"+(uid++);
+var o='<svg viewBox="0 0 '+W+' '+H+'" role="img"><defs><marker id="'+m+'" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" class="mk"/></marker></defs>';
+A.forEach(function(n,i){o+='<line x1="'+x[i]+'" y1="30" x2="'+x[i]+'" y2="'+(H-4)+'" class="lf"/><rect x="'+(x[i]-g/2+5)+'" y="4" width="'+(g-10)+'" height="24" rx="7" class="ac"/><text x="'+x[i]+'" y="20" text-anchor="middle" font-size="10" font-weight="700" class="wh">'+n+'</text>'});
+S.forEach(function(s,i){
+var f=s[0],to=s[1],y=t+i*r+12,k=i/T,e=(i+.8)/T,d=to>f?1:-1;
+o+='<circle cx="9" cy="'+y+'" r="7" class="ac"/><text x="9" y="'+(y+3)+'" text-anchor="middle" font-size="8" font-weight="700" class="wh">'+(i+1)+'</text>';
+if(f!=to){var x1=x[f]+3*d,x2=x[to]-3*d;
+o+='<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" class="ln'+(s[3]?' rt':'')+'" marker-end="url(#'+m+')"/><text x="'+((x1+x2)/2)+'" y="'+(y-5)+'" text-anchor="middle" font-size="8.5" class="tx">'+s[2]+'</text>';
+o+='<circle r="3.5" cy="'+y+'" class="dt" opacity="0"><animate attributeName="cx" values="'+x1+';'+x1+';'+x2+';'+x2+'" keyTimes="0;'+k+';'+e+';1" dur="'+T*.9+'s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;'+k+';'+e+';'+(e+.001)+';1" dur="'+T*.9+'s" repeatCount="indefinite"/></circle>';
+}else{var a=x[f];
+o+='<path d="M'+a+' '+(y-6)+'h28v14h-28" class="ln" marker-end="url(#'+m+')"/><text x="'+(a+34)+'" y="'+(y+3)+'" font-size="8.5" class="tx">'+s[2]+'</text>';
+o+='<circle r="3.5" cx="'+(a+28)+'" cy="'+(y+1)+'" class="dt" opacity="0"><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;'+k+';'+e+';'+(e+.001)+';1" dur="'+T*.9+'s" repeatCount="indefinite"/></circle>';
+}
+});
+document.getElementById(id).innerHTML=o+'</svg>';}
+function pipe(id,N){
+var W=360,bh=46,gp=24,H=N.length*(bh+gp)-gp+10,m="p"+(uid++),D=N.length*1.2;
+var o='<svg viewBox="0 0 '+W+' '+H+'" role="img"><defs><marker id="'+m+'" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" class="mk"/></marker></defs>';
+N.forEach(function(n,i){var y=5+i*(bh+gp);
+o+='<rect x="14" y="'+y+'" width="332" height="'+bh+'" rx="11" class="bx hl" style="animation-duration:'+D+'s;animation-delay:'+(i*1.2)+'s"/><text x="32" y="'+(y+29)+'" font-size="18">'+n[0]+'</text><text x="60" y="'+(y+20)+'" font-size="11.5" font-weight="700" class="tx">'+n[1]+'</text><text x="60" y="'+(y+35)+'" font-size="8.5" class="sb">'+n[2]+'</text>';
+if(i<N.length-1)o+='<line x1="180" y1="'+(y+bh)+'" x2="180" y2="'+(y+bh+gp)+'" class="ln dash" marker-end="url(#'+m+')"/>';});
+o+='<circle r="5" cx="330" cy="5" class="pk"><animate attributeName="cy" values="5;'+(H-5)+'" dur="'+D+'s" repeatCount="indefinite"/></circle>';
+document.getElementById(id).innerHTML=o+'</svg>';}
+
+pipe("layers",[["🌐","Client layer","Pages: / · sign-in · sign-up · verify · u/[user] · dashboard"],["🔌","API layer","Next.js route handlers (10 endpoints, REST over Axios)"],["🧰","Service / helper layer","db singleton · Resend client · rateLimit · suggestions"],["🍃","Data layer","MongoDB Atlas: users, ratelimits"]]);
+pipe("auth",[["🔑","Credentials sign-in","Identifier (email or username) + password"],["🛂","authorize()","Find user · must be isverified · bcrypt compare"],["🎫","JWT callback","Stamps _id, isverified, isAcceptingMessage, username"],["🍪","Signed session cookie","NEXTAUTH_SECRET_KEY · copied into session.user"],["🚧","Middleware guard","Token: /sign-in → /dashboard · No token: /dashboard → /sign-in"]]);
+
+seq("wa",["Browser","API","MongoDB","Resend"],[[0,1,"POST /sign-up"],[1,2,"user exists?"],[2,1,"dup → 400",1,1],[1,1,"hash pw + OTP (1h)"],[1,2,"save unverified"],[1,3,"send OTP mail"],[3,0,"6-digit code",1,1],[0,1,"POST /verify-code"],[1,2,"code + expiry ok?"],[1,0,"isverified → /sign-in",1,1]]);
+seq("wb",["Browser","NextAuth","MongoDB"],[[0,1,"signIn(credentials)"],[1,2,"find email/username"],[2,1,"user document",1],[1,1,"verified? bcrypt"],[1,0,"signed JWT cookie",1],[0,0,"toast → /dashboard"]]);
+seq("wc",["Dashboard","Middleware","API","MongoDB"],[[0,1,"GET /dashboard"],[1,1,"token valid?"],[1,0,"no token → /sign-in",1],[0,2,"GET /acceptmessage"],[2,3,"read flag"],[2,0,"isAccepting",1],[0,2,"POST toggle"],[2,3,"update flag"],[0,0,"show /u/username link"]]);
+seq("wd",["Sender","API","RateLimit","Users"],[[0,1,"GET /public-profile"],[1,3,"isAccepting?"],[3,0,"true → show form",1],[0,1,"POST send-message"],[1,2,"count by email"],[2,1,"≥1 → 403",1],[1,3,"find recipient"],[3,1,"404 / 403 if off",1],[1,3,"push message"],[1,0,"sent anonymously",1]]);
+seq("we",["Dashboard","API","Session","Users"],[[0,1,"GET /get-messages"],[1,2,"getServerSession"],[2,1,"user email",1],[1,3,"fetch messages"],[3,0,"newest first",1],[0,1,"DELETE /[id]"],[1,3,"$pull by _id"],[1,0,"200 OK",1]]);
+seq("wf",["Sender","API","Data file"],[[0,1,"GET /suggest-message"],[1,2,"pick 4 random"],[2,1,"4 strings",1],[1,0,"suggestions",1],[0,0,"click → fill textarea"]]);
+
+pipe("d1",[["🌍","User browser","HTTPS request to your domain"],["☁️","Cloudflare DNS","A record → EC2 public IP"],["🖥️","AWS EC2","Ubuntu 22.04 · t3.micro / t3.small"],["🔀","Nginx :80/:443","Proxy → localhost:3000 · WS upgrade · Let’s Encrypt SSL · 80→443"],["🐳","Docker container","node:20-alpine · Next.js standalone · env_file .env"],["🍃","MongoDB Atlas","IP whitelist: EC2_PUBLIC_IP/32"]]);
+pipe("d2",[["📦","Stage 1 · build","npm run build · next.config output: standalone"],["✂️","Copy artifacts","Only .next/standalone, .next/static, public"],["🚀","Stage 2 · run","node:20-alpine · node server.js on :3000"]]);
+pipe("d3",[["💻","Push code","Developer commits to the repository"],["⬇️","git pull on EC2","SSH into the server and fetch the latest code"],["🔨","docker compose up -d --build","Rebuild image, restart service (unless-stopped)"],["🔀","nginx -t · reload","Validate config and reload proxy"],["🔒","certbot renew","Auto-renew Let’s Encrypt (dry-run tested)"]]);
+</script>
+</body>
 </html>
